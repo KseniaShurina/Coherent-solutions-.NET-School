@@ -1,2 +1,2 @@
-# .NET-School-with-CS
+# Coherent-solutions-.NET-School
 Coherent solutions .NET School
