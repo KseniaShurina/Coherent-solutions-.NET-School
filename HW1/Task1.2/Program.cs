@@ -1,28 +1,26 @@
 ﻿Console.WriteLine("Hello, User! Input 9 integers between 1 and 9: ");
 
 // Replace method removes whitespace if needed
-string inputNumbers = Console.ReadLine()!.Replace(" ", "");
+// Substring removes elements if there are more than 9.
+string inputNumbers = Console.ReadLine()!.Replace(" ", "").Substring(0, 9);
 
-// to convert string to array of integers
-int length = inputNumbers.Length;
-int[] isbn = new int[length];
-// to set the index for each number in the new array when the string is iterated
-int index = 0;
-
-foreach (char number in inputNumbers)
+// To convert string to array of integers.
+int[] isbn = new int[9];
+Console.Write($"ISBN: ");
+for (int i = 0; i < inputNumbers.Length; i++)
 {
-    // convert char to int
-    isbn[index] = int.Parse(number.ToString());
-    index++;
+    isbn[i] = int.Parse(inputNumbers[i].ToString());
+    Console.Write($"{isbn[i]} ");
 }
 
-Console.WriteLine(GetCheckDigit(isbn));
+Console.WriteLine();
+Console.WriteLine($"The check digit: {GetCheckDigit(isbn)}");
 
 string GetCheckDigit(int[] array)
 {
-    // to increment weight
+    // To increment weight.
     int weight = 10;
-    // the sum of the products of digits by the weight of their positions
+    // The sum of the products of digits by the weight of their positions.
     int summ = 0;
 
     for (int i = 0; i < array.Length; i++)
@@ -30,15 +28,22 @@ string GetCheckDigit(int[] array)
         summ += array[i] * weight--;
     }
 
-    // Rest from dividing the sum by 11
+    // Rest from dividing the sum by 11.
     int rest = summ % 11;
     int checkDigit = 11 - rest;
 
+    // Handle the case where the remainder is 0.
+    if (checkDigit == 11)
+    {
+        return "0";
+    }
+
+    // If check digit is 10, return 'X'.
     if (checkDigit == 10)
     {
         return "X";
     }
 
-    // Return the check digit as a string
+    // Return the check digit as a string.
     return checkDigit.ToString();
 }

@@ -1,8 +1,8 @@
 ﻿Console.WriteLine("Hello, User! Input the number if elements in the array: ");
-// 
+
 int lengthOfInitialArray = int.Parse(Console.ReadLine()!);
 
-// Create array
+// Create array.
 int[] initialArray = new int[lengthOfInitialArray];
 
 Console.WriteLine("Enter the elements of the array");
@@ -11,7 +11,7 @@ for (int i = 0; i < lengthOfInitialArray; i++)
     initialArray[i] = int.Parse(Console.ReadLine()!);
 }
 
-// Output initial array
+// Output initial array.
 Console.WriteLine("Here is your array:");
 foreach (int number in initialArray)
 {
@@ -20,10 +20,10 @@ foreach (int number in initialArray)
 
 Console.WriteLine();
 
-// Get array of unique numbers
+// Get array of unique numbers.
 int[] result = GetArrayOfUniqueNumbers(initialArray, lengthOfInitialArray);
 
-// Output array of unique numbers
+// Output array of unique numbers.
 Console.WriteLine("Here is array of unique numbers:");
 foreach (int number in result)
 {
@@ -38,15 +38,8 @@ int[] GetArrayOfUniqueNumbers(int[] array, int length)
 
     for (int i = 0; i < length; i++)
     {
-        if (i == 0)
-        {
-            arrayOfUniqueNumbers[i] = array[i];
-            countOfUniqueNumbers++;
-            continue;
-        }
-
-        // If the array of unique numbers does not consist of this number add it.
-        if (!IfContainsThisNumber(array[i]))  
+        // If the array of unique numbers does not yet contain the current element, add it.
+        if (i == 0 || !IfContainsThisNumber(array[i]))
         {
             arrayOfUniqueNumbers[countOfUniqueNumbers] = array[i];
             countOfUniqueNumbers++;
