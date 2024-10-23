@@ -21,7 +21,7 @@ foreach (int number in initialArray)
 Console.WriteLine();
 
 // Get array of unique numbers.
-int[] result = GetArrayOfUniqueNumbers(initialArray, lengthOfInitialArray);
+int[] result = GetArrayOfUniqueNumbers(initialArray);
 
 // Output array of unique numbers.
 Console.WriteLine("Here is array of unique numbers:");
@@ -30,13 +30,13 @@ foreach (int number in result)
     Console.Write($"{number} ");
 }
 // Method for getting an array of unique numbers
-int[] GetArrayOfUniqueNumbers(int[] array, int length)
+int[] GetArrayOfUniqueNumbers(int[] array)
 {
     // To add unique numbers to new array and return only relevant number of elements.
     int countOfUniqueNumbers = 0;
-    int[] arrayOfUniqueNumbers = new int[length];
+    int[] arrayOfUniqueNumbers = new int[array.Length];
 
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < array.Length; i++)
     {
         // If the array of unique numbers does not yet contain the current element, add it.
         if (i == 0 || !IfContainsThisNumber(array[i]))

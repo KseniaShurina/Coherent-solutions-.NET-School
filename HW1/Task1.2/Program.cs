@@ -28,9 +28,7 @@ string GetCheckDigit(int[] array)
         summ += array[i] * weight--;
     }
 
-    // Rest from dividing the sum by 11.
-    int rest = summ % 11;
-    int checkDigit = 11 - rest;
+    int checkDigit = (11 - summ % 11) % 11;
 
     // Handle the case where the remainder is 0.
     if (checkDigit == 11)
