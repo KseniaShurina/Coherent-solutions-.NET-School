@@ -16,5 +16,10 @@
             return
                 $"Description: {Description}, Link to the task condition: {LinkToTheTaskCondition}, Link to the solution: {LinkToTheSolution}";
         }
+
+        public override object Clone()
+        {
+            return new PracticalLesson(this.Description, this.LinkToTheTaskCondition, this.LinkToTheSolution);
+        }
     }
 }

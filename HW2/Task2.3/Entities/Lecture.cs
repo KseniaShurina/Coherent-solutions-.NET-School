@@ -13,5 +13,10 @@
         {
             return $"Topic: {Topic}, Description: {Description}";
         }
+
+        public override object Clone()
+        {
+            return new Lecture(this.Description, this.Topic);
+        }
     }
 }

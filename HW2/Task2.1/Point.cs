@@ -17,7 +17,14 @@
             get => _coordinates[2];
             set => _coordinates[2] = value;
         }
-        public double Mass { get; set; }
+
+        private double _mass;
+
+        public double Mass
+        {
+            get => _mass;
+            set => _mass = value < 0 ? 0 : value;
+        }
 
         private readonly int[] _coordinates = new int[3];
 
@@ -26,7 +33,7 @@
             X = x;
             Y = y;
             Z = z;
-            Mass = mass < 0 ? 0 : mass;
+            Mass = mass;
         }
 
         // Returns true if all coordinates of the point are 0.
@@ -40,8 +47,12 @@
         }
 
         // Return the distance between the current point and the parameter point.
-        public double Distance(Point point)
+        public double Distance(Point? point)
         {
+            if (point == null)
+            {
+                throw new ArgumentNullException(nameof(point));
+            }
             return Math.Sqrt(Math.Pow((X - point.X), 2) + Math.Pow((Y - point.Y), 2) + Math.Pow((Z - point.Z), 2));
         }
     }

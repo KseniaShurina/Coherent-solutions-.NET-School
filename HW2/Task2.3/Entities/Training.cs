@@ -1,35 +1,33 @@
 ﻿namespace Task2._3.Entities
 {
-    internal class Training : TrainingEntity, ICloneable
+    internal class Training : TrainingEntity
     {
         //Set of lectures;
-        public object[] lectures;
+        public TrainingEntity[] Lectures;
 
         internal Training(string description) : base(description)
         {
-            lectures = [];
+            Lectures = [];
         }
 
         // Method add new lesson to Lessons.
-        public void Add(object lecture)
+        public void Add(TrainingEntity lecture)
         {
-            if (lecture.GetType() == typeof(PracticalLesson) || lecture.GetType() == typeof(Lecture))
+            if (lecture == null)
             {
-                Array.Resize(ref lectures, lectures.Length + 1);
-                lectures[^1] = lecture;
+                throw new ArgumentNullException(nameof(lecture));
             }
-            else
-            {
-                Console.WriteLine("Error: lecture type not supported.");
-            }
+            Array.Resize(ref Lectures, Lectures.Length + 1);
+            Lectures[^1] = lecture;
         }
 
         // Method checks if the training contains only practical exercises.
         public bool IsPractical()
         {
-            foreach (var lecture in lectures)
+
+            foreach (var lecture in Lectures)
             {
-                if (lecture.GetType() == typeof(Lecture))
+                if (lecture is not PracticalLesson)
                 {
                     return false;
                 }
@@ -39,25 +37,13 @@
         }
 
         // Method is cloning training.
-        public object Clone()
+        public override object Clone()
         {
             Training training = new Training(this.Description);
 
-            foreach (var lecture in lectures)
+            foreach (TrainingEntity lecture in this.Lectures)
             {
-                if (lecture is PracticalLesson)
-                {
-                    var clonedPracticalLesson = (PracticalLesson)lecture;
-                    training.Add(
-                        new PracticalLesson(clonedPracticalLesson.Description,
-                            clonedPracticalLesson.LinkToTheTaskCondition,
-                            clonedPracticalLesson.LinkToTheSolution));
-                }
-                else
-                {
-                    var clonedLecture = (Lecture)lecture;
-                    training.Add(new Lecture(clonedLecture.Description, clonedLecture.Topic));
-                }
+                training.Add((TrainingEntity)lecture.Clone());
             }
 
             return training;

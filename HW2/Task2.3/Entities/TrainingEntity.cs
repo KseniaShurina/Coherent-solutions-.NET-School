@@ -8,5 +8,10 @@
         {
             Description = description;
         }
+
+        public virtual object Clone()
+        {
+            return new TrainingEntity(this.Description);
+        }
     }
 }

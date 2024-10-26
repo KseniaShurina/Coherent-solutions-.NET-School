@@ -1,28 +1,44 @@
 ﻿namespace Task2._2
 {
-    internal class DiagonalMatrix
+    internal sealed class DiagonalMatrix
     {
         //To get the size of the matrix.
-        public int Size { get; init; }
+        public int Size { get; }
 
         // Private array that stores only the diagonal elements of the matrix.
-        private int[] _valuesOnDiagonal = null!;
+        private readonly int[] _valuesOnDiagonal = null!;
 
         // Indexer to access elements of the matrix.
-        internal int this[int i, int j]
+        public int this[int i, int j]
         {
             get
             {
-                if (i != j || i < 0 || j < 0 || i >= Size & j >= Size)
+                if (IsValidIndex(i, j))
                 {
-                    return 0;
-                }
+                    return _valuesOnDiagonal[i];
 
-                return _valuesOnDiagonal[i];
+                }
+                return 0;
+            }
+            set
+            {
+                if (IsValidIndex(i, j))
+                {
+                    _valuesOnDiagonal[i] = value;
+                }
             }
         }
 
-        internal DiagonalMatrix(params int[]? numbers)
+        private bool IsValidIndex(int i, int j)
+        {
+            if (i != j || i < 0 || j < 0 || i >= Size & j >= Size)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public DiagonalMatrix(params int[]? numbers)
         {
             if (numbers == null || numbers.Length == 0)
             {
@@ -31,7 +47,9 @@
             else
             {
                 Size = numbers.Length;
-                _valuesOnDiagonal = numbers;
+                // Array.Copy ensures that _valuesOnDiagonal is independently of numbers. Any modification will not affect to _valuesOnDiagonal.
+                _valuesOnDiagonal = new int[Size];
+                Array.Copy(numbers, _valuesOnDiagonal, numbers.Length);
             }
         }
 
@@ -46,7 +64,7 @@
         {
             if (Size == 0)
             {
-                return base.ToString();
+                return string.Empty;
             }
 
             string result = "";
@@ -56,15 +74,8 @@
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    // Check if it's a diagonal element.
-                    if ((i == j) && i < Size)
-                    {
-                        result += (this._valuesOnDiagonal[i].ToString());
-                    }
-                    else
-                    {
-                        result += "0";
-                    }
+                    // Indexer check if it's a diagonal element.
+                    result += this[i, j].ToString();
 
                     result += " ";
                 }
@@ -100,40 +111,9 @@
                         return false;
                     }
                 }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        // Method to add two diagonal matrices.
-        internal DiagonalMatrix Addition(DiagonalMatrix matrix)
-        {
-            int size = 0;
-
-            // Resize the smaller matrix if the sizes are different
-            if (Size > matrix.Size)
-            {
-                Array.Resize(ref matrix._valuesOnDiagonal, Size);
-                size = Size;
-            }
-            else if(matrix.Size > Size)
-            {
-                Array.Resize(ref _valuesOnDiagonal, matrix.Size);
-                size = matrix.Size;
-            }
-            
-            int[] newMatrix = new int[size];
-
-            // Add elements of the two matrices.
-            for (int i = 0; i < size; i++)
-            {
-                newMatrix[i] = matrix._valuesOnDiagonal[i] + _valuesOnDiagonal[i];
             }
 
-            return new DiagonalMatrix(newMatrix);
+            return true;
         }
     }
 }
