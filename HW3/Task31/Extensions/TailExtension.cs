@@ -9,23 +9,24 @@
                 throw new ArgumentNullException(nameof(queue));
             }
 
-            if (queue.ArrayOfElements.Length == 0)
+            if (queue.IsEmpty())
             {
-                throw new ArgumentOutOfRangeException(nameof(queue));
+                return new Queue<T>();
             }
 
+            // Remove first element in queue
             queue.Dequeue();
-            // Decrement newArray length for 1 compared to queue.
-            T[] newArray = new T[queue.ArrayOfElements.Length];
 
-            // Fill newArray without first element from queue.
-            for (int i = 0; i < newArray.Length; i++)
+            // Create new queue
+            Queue<T> newQueue = new Queue<T>(queue.Capacity);
+
+            // Fill newQueue elements from the queue
+            foreach (var item in queue)
             {
-                newArray[i] = queue.ArrayOfElements[i];
+                newQueue.Enqueue((T)item);
             }
 
-            // Return Queue without first element in array.
-            return new Queue<T>(newArray);
+            return newQueue;
         }
     }
 }

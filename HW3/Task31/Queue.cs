@@ -2,41 +2,53 @@
 
 namespace Task31
 {
-    public class Queue<T> : IQueue<T> where T : struct
+    internal class Queue<T> : IQueue<T> where T : struct
     {
-        public T[] ArrayOfElements;
-
-        // Constructor to create empty queue.
-        public Queue()
+        public int Capacity
         {
-            ArrayOfElements = [];
+            get => _capacity;
+            private set => _capacity = value;
+        }
+
+        private T[]? _arrayOfElements = null!;
+        private int _size;
+        private int _capacity;
+
+        // Constructor to create queue with capacity.
+        public Queue(int capacity = 10)
+        {
+            if (capacity < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(capacity));
+            }
+            _capacity = capacity;
+            _arrayOfElements = new T[_capacity];
         }
 
         // Constructor to add element to the queue.
         public Queue(params T[] arrayOfElements)
         {
             ArgumentNullException.ThrowIfNull(arrayOfElements);
-            ArrayOfElements = arrayOfElements;
+            _capacity = arrayOfElements.Length + 5;
+            _size = arrayOfElements.Length;
+
+            _arrayOfElements = new T[_capacity];
+            Array.Copy(arrayOfElements, _arrayOfElements, _size);
         }
 
         // To iterate elements in a loop.
-        public IEnumerator GetEnumerator() => ArrayOfElements.GetEnumerator();
+        public IEnumerator GetEnumerator() => _arrayOfElements!.GetEnumerator();
 
         // Add a new item to the end of the queue.
         public void Enqueue(T item)
         {
-            // Increment newArray length for 1 compared to array.
-            T[] newArray = new T[ArrayOfElements.Length + 1];
-
-            for (int i = 0; i < ArrayOfElements.Length; i++)
+            if (_size == _capacity)
             {
-                // Move elements to new array
-                newArray[i] = ArrayOfElements[i];
+                throw new ArgumentOutOfRangeException(nameof(_arrayOfElements));
             }
 
-            newArray[^1] = item;
-
-            ArrayOfElements = newArray;
+            _arrayOfElements![_size] = item;
+            _size++;
         }
 
         // Remove first element in queue and return it.
@@ -45,23 +57,22 @@ namespace Task31
             if (IsEmpty())
             {
                 return default(T);
-                //throw new IndexOutOfRangeException(nameof(ArrayOfElements));
             }
 
             // Save first item to variable.
-            var firstItem = ArrayOfElements![0];
+            var firstItem = _arrayOfElements![0];
 
             // Decrement newArray length for 1 compared to array.
-            T[] newArray = new T[ArrayOfElements.Length - 1];
+            T[] newArray = new T[_capacity];
 
             // Fill newArray without first element from array.
-            for (int i = 0; i < newArray.Length; i++)
+            for (int i = 0; i < _capacity - 1; i++)
             {
-                newArray[i] = ArrayOfElements[i + 1];
+                newArray[i] = _arrayOfElements[i + 1];
             }
 
-            ArrayOfElements = newArray;
-
+            _arrayOfElements = newArray;
+            _size--;
             // Return removed item from array.
             return firstItem;
         }
@@ -69,11 +80,24 @@ namespace Task31
         // Check queue for null or empty.
         public bool IsEmpty()
         {
-            if (ArrayOfElements?.Length == 0)
+            if (_size <= 0)
             {
                 return true;
             }
             return false;
+        }
+
+        public void Foreach()
+        {
+            if (_size <= 0)
+            {
+                throw new ArgumentNullException(nameof(_arrayOfElements));
+            }
+
+            for (int i = 0; i < _size; i++)
+            {
+                Console.Write($"{_arrayOfElements![i]} ");
+            }
         }
     }
 }

@@ -1,28 +1,19 @@
 ﻿using Task31.Extensions;
-using Task31;
-
+Task31.Queue<int> queue1 = new Task31.Queue<int>();
 Task31.Queue<int> queue = new Task31.Queue<int>(1, 2, 3);
 
 Console.WriteLine("\n Created queue:");
-ForeachQueue();
+queue.Foreach();
 
 Console.WriteLine("\n Add new item queue:");
 queue.Enqueue(4);
-ForeachQueue();
+queue.Foreach();
 
 Console.WriteLine("\n Remove first item from queue:");
 int removedItem = queue.Dequeue();
 Console.WriteLine($"First item - {removedItem}");
-ForeachQueue();
+queue.Foreach();
 
 Console.WriteLine("\n Return queue without first item:");
-IQueue<int> result = TailExtension<int>.Tail(queue);
-ForeachQueue();
-
-void ForeachQueue()
-{
-    foreach (var number in queue)
-    {
-        Console.Write($"{number} ");
-    }
-}
+TailExtension<int>.Tail(queue);
+queue.Foreach();
