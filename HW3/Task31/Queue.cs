@@ -11,6 +11,8 @@ namespace Task31
         }
 
         private T[]? _arrayOfElements = null!;
+        private int _head; // First index
+        private int _tail; // Last index
         private int _size;
         private int _capacity;
 
@@ -23,6 +25,9 @@ namespace Task31
             }
             _capacity = capacity;
             _arrayOfElements = new T[_capacity];
+            _head = 0;
+            _tail = 0;
+            _size = 0;
         }
 
         // Constructor to add element to the queue.
@@ -34,20 +39,22 @@ namespace Task31
 
             _arrayOfElements = new T[_capacity];
             Array.Copy(arrayOfElements, _arrayOfElements, _size);
+            _head = 0;
+            _tail = _size % _capacity; // Устанавливаем _tail в конец добавленных элементов
         }
-
-        // To iterate elements in a loop.
-        public IEnumerator GetEnumerator() => _arrayOfElements!.GetEnumerator();
 
         // Add a new item to the end of the queue.
         public void Enqueue(T item)
         {
             if (_size == _capacity)
             {
+                // Throw an exception when max. capacity reached.
                 throw new ArgumentOutOfRangeException(nameof(_arrayOfElements));
             }
 
-            _arrayOfElements![_size] = item;
+            _arrayOfElements![_tail] = item;
+            // Move the index along the array. As soon as the index reaches the end of the array, the index becomes 0 again.
+            _tail = (_tail + 1) % Capacity;
             _size++;
         }
 
@@ -56,22 +63,17 @@ namespace Task31
         {
             if (IsEmpty())
             {
-                return default(T);
+                // Throw an exception when min. size reached.
+                throw new ArgumentOutOfRangeException(nameof(_arrayOfElements));
             }
 
-            // Save first item to variable.
-            var firstItem = _arrayOfElements![0];
-
-            // Decrement newArray length for 1 compared to array.
-            T[] newArray = new T[_capacity];
-
-            // Fill newArray without first element from array.
-            for (int i = 0; i < _capacity - 1; i++)
-            {
-                newArray[i] = _arrayOfElements[i + 1];
-            }
-
-            _arrayOfElements = newArray;
+            // Save first item.
+            var firstItem = _arrayOfElements![_head];
+            // Releases the reference to the object (if T is RT), allowing the GC to clean up the memory. For VT, this simply resets the cell's value.
+            _arrayOfElements[_head] = default(T);
+            // Move the index along the array. As soon as the index reaches the end of the array, the index becomes 0 again.
+            _head = (_head + 1) % Capacity;
+            // Reducing the queue size.
             _size--;
             // Return removed item from array.
             return firstItem;
@@ -87,16 +89,19 @@ namespace Task31
             return false;
         }
 
-        public void Foreach()
+        // Implementation of the non-generic IEnumerable interface.
+        // For compatibility with foreach and with old code that doesn't know the type of elements inside the collection.
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            if (_size <= 0)
-            {
-                throw new ArgumentNullException(nameof(_arrayOfElements));
-            }
+            return GetEnumerator();
+        }
 
+        // This method returns an IEnumerator<T> that allows you to iterate over elements of a particular type T.
+        public IEnumerator<T> GetEnumerator()
+        {
             for (int i = 0; i < _size; i++)
             {
-                Console.Write($"{_arrayOfElements![i]} ");
+                yield return _arrayOfElements![(_head + i) % Capacity];
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿namespace Task31
 {
-    public interface IQueue<T> where T : struct
+    // IEnumerable<T> allows foreach to be used with types that implement this interface.
+    public interface IQueue<T> : IEnumerable<T>
     {
         public void Enqueue(T item) { }
 

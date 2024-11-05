@@ -1,8 +1,15 @@
 ﻿namespace Task31.Extensions
 {
-    internal static class TailExtension<T> where T : struct
+    internal static class TailExtension
     {
-        internal static IQueue<T> Tail(Queue<T> queue)
+        /// <summary>
+        /// Method returns a new queue consisting of the elements of the original parameter queue minus the first element.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the queue</typeparam>
+        /// <param name="queue">The original queue</param>
+        /// <returns>Returns a new queue consisting of the elements of the original parameter queue minus the first element</returns>
+        /// <exception cref="ArgumentNullException">If queue is null</exception>
+        internal static IQueue<T> Tail<T>(this Queue<T> queue) where T : struct
         {
             if (queue == null)
             {
@@ -14,15 +21,18 @@
                 return new Queue<T>();
             }
 
-            // Remove first element in queue
-            queue.Dequeue();
-
             // Create new queue
             Queue<T> newQueue = new Queue<T>(queue.Capacity);
 
-            // Fill newQueue elements from the queue
+            bool isFirstElement = true;
             foreach (var item in queue)
             {
+                // Skip the first element when copying
+                if (isFirstElement)
+                {
+                    isFirstElement = false;
+                    continue;
+                }
                 newQueue.Enqueue((T)item);
             }
 

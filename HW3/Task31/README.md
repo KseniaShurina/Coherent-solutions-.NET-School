@@ -2,9 +2,9 @@
 
 1. A queue is an abstract data type organized according to the FIFO principle and implements the following operations:
 
-Enqueue(e) � adding an element to the queue.
-Dequeue() � removes an element from the queue.
-IsEmpty() � checking the queue for emptiness.
+Enqueue(e) - adding an element to the queue.
+Dequeue() - removes an element from the queue.
+IsEmpty() - checking the queue for emptiness.
 To do:
 
 2. Create a universal interface IQueue<T> that describes operations with a queue storing elements of value types.
