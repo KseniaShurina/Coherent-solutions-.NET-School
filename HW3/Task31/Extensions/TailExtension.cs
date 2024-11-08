@@ -23,17 +23,26 @@
 
             // Create new queue
             Queue<T> newQueue = new Queue<T>(queue.Capacity);
+            Queue<T> tempQueue = new Queue<T>(queue.Capacity);
 
             bool isFirstElement = true;
-            foreach (var item in queue)
+            while (!queue.IsEmpty())
             {
-                // Skip the first element when copying
+                T item = queue.Dequeue();
                 if (isFirstElement)
                 {
                     isFirstElement = false;
+                    tempQueue.Enqueue(item);
                     continue;
                 }
-                newQueue.Enqueue((T)item);
+
+                newQueue.Enqueue(item);
+                tempQueue.Enqueue(item);
+            }
+
+            while (!tempQueue.IsEmpty())
+            {
+                queue.Enqueue(tempQueue.Dequeue());
             }
 
             return newQueue;

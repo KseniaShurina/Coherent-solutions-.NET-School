@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace Task31
+﻿namespace Task31
 {
     internal class Queue<T> : IQueue<T> where T : struct
     {
@@ -40,7 +38,7 @@ namespace Task31
             _arrayOfElements = new T[_capacity];
             Array.Copy(arrayOfElements, _arrayOfElements, _size);
             _head = 0;
-            _tail = _size % _capacity; // Устанавливаем _tail в конец добавленных элементов
+            _tail = _size % _capacity;
         }
 
         // Add a new item to the end of the queue.
@@ -53,7 +51,7 @@ namespace Task31
             }
 
             _arrayOfElements![_tail] = item;
-            // Move the index along the array. As soon as the index reaches the end of the array, the index becomes 0 again.
+            // Move the index along the array. As soon as the index reaches the end of the array, the index becomes 0 again (Circular buffer).
             _tail = (_tail + 1) % Capacity;
             _size++;
         }
@@ -71,7 +69,7 @@ namespace Task31
             var firstItem = _arrayOfElements![_head];
             // Releases the reference to the object (if T is RT), allowing the GC to clean up the memory. For VT, this simply resets the cell's value.
             _arrayOfElements[_head] = default(T);
-            // Move the index along the array. As soon as the index reaches the end of the array, the index becomes 0 again.
+            // Move the index along the array. As soon as the index reaches the end of the array, the index becomes 0 again (Circular buffer).
             _head = (_head + 1) % Capacity;
             // Reducing the queue size.
             _size--;
@@ -89,19 +87,17 @@ namespace Task31
             return false;
         }
 
-        // Implementation of the non-generic IEnumerable interface.
-        // For compatibility with foreach and with old code that doesn't know the type of elements inside the collection.
-        IEnumerator IEnumerable.GetEnumerator()
+        public void ForeachQueue()
         {
-            return GetEnumerator();
-        }
-
-        // This method returns an IEnumerator<T> that allows you to iterate over elements of a particular type T.
-        public IEnumerator<T> GetEnumerator()
-        {
-            for (int i = 0; i < _size; i++)
+            if (IsEmpty())
             {
-                yield return _arrayOfElements![(_head + i) % Capacity];
+                // Throw an exception when min. size reached.
+                throw new ArgumentOutOfRangeException(nameof(_arrayOfElements));
+            }
+
+            for (int i = _head; i < _tail; i++)
+            {
+                Console.Write($"{_arrayOfElements![i]} ");
             }
         }
     }
