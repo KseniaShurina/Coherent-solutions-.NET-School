@@ -8,36 +8,14 @@
         // Constructor
         public RationalNumber(int numerator, int denominator)
         {
-            if (denominator == 0 || denominator < 0) throw new ArgumentException(nameof(denominator));
+            if (denominator == 0) throw new ArgumentException(nameof(denominator));
 
-            int gcd = Gcd(Math.Abs(numerator), denominator);
+            int gcd = MathOperations.Gcd(Math.Abs(numerator), Math.Abs(denominator));
 
             Numerator = numerator / gcd;
             Denominator = denominator / gcd;
         }
 
-        // Greatest common divisor
-        private static int Gcd(int a, int b)
-        {
-            while (b != 0)
-            {
-                int temp = b;
-                b = a % b;
-                a = temp;
-            }
-            return a;
-        }
-
-        private static int Lcm(int a, int b)
-        {
-            return a + b / Gcd(a, b);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
@@ -65,7 +43,7 @@
         {
             ArgumentNullException.ThrowIfNull(other);
 
-            return Lcm(this.Numerator, this.Denominator).CompareTo(Lcm(other.Numerator, other.Denominator));
+            return MathOperations.Lcm(this.Numerator, this.Denominator).CompareTo(MathOperations.Lcm(other.Numerator, other.Denominator));
         }
 
         // Explicit conversion to double 
@@ -95,7 +73,16 @@
 
         // *
         public static RationalNumber operator *(RationalNumber a, RationalNumber b)
-            => new RationalNumber(a.Numerator * b.Numerator, a.Denominator * b.Denominator);
+        {
+            if (a.Denominator == 0 || b.Denominator == 0)
+            {
+                throw new ArgumentException("Denominator cant be 0");
+            }
+            var numerator = a.Numerator * b.Numerator;
+            var denominator = a.Denominator * b.Denominator;
+
+            return new RationalNumber(numerator, denominator);
+        }
 
         // /
         public static RationalNumber operator /(RationalNumber a, RationalNumber b)

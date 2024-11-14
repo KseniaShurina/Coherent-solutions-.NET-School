@@ -32,18 +32,24 @@ namespace Task41
 
             if (!IsEmpty())
             {
-                var m = _changesDictionary.Peek();
-                matrix[m.Column, m.Row] = m.OldValue;
+                // To ensure a matrix subscribes again even an exception will be occured.
+                try
+                {
+                    _matrix.ElementChanged -= ElementChanged;
+                    // Pop() - Removes change from dictionary.
+                    var m = _changesDictionary.Pop();
+                    matrix[m.Column, m.Row] = m.OldValue;
+                }
+                finally
+                {
+                    _matrix.ElementChanged += ElementChanged;
+                }
             }
         }
 
         private bool IsEmpty()
         {
-            if (_changesDictionary.Count == 0)
-            {
-                return true;
-            }
-            return false;
+            return _changesDictionary.Count == 0;
         }
     }
 }

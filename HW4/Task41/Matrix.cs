@@ -3,7 +3,11 @@
     internal class Matrix<T>
     {
         //To get the size of the matrix.
-        public int Size { get; }
+        public int Size
+        {
+            get => _valuesOnDiagonal?.Length ?? 0;
+            private set { }
+        }
 
         // Private array that stores only the diagonal elements of the matrix.
         private readonly T[] _valuesOnDiagonal = null!;
@@ -30,9 +34,8 @@
                 if (IsValidIndex(i, j))
                 {
                     T oldValue = _valuesOnDiagonal[i];
-                    ArgumentNullException.ThrowIfNull(oldValue);
 
-                    if (!oldValue.Equals(value))
+                    if (!oldValue!.Equals(value))
                     {
                         _valuesOnDiagonal[i] = value;
                         ElementChanged?.Invoke(this, new MatrixChangedEventArgs<T>(i, j, oldValue, value));
@@ -67,18 +70,14 @@
             {
                 Size = numbers.Length;
                 // Array.Copy ensures that _valuesOnDiagonal is independently of numbers. Any modification will not affect to _valuesOnDiagonal.
-                _valuesOnDiagonal = new T[Size];
+                _valuesOnDiagonal = new T[numbers.Length];
                 Array.Copy(numbers, _valuesOnDiagonal, numbers.Length);
             }
         }
 
         private bool IsValidIndex(int i, int j)
         {
-            if (i != j || i < 0 || j < 0 || i >= Size & j >= Size)
-            {
-                return false;
-            }
-            return true;
+            return i != j || i < 0 || j < 0 || i >= Size & j >= Size;
         }
 
         public override string ToString()
