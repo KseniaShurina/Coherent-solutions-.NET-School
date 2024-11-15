@@ -1,4 +1,6 @@
-﻿namespace Task52
+﻿using Task52.Validators;
+
+namespace Task52.Entities
 {
     internal class Book
     {
@@ -25,13 +27,13 @@
 
         public void AddAuthor(Author author)
         {
-            if (author == null) throw new ArgumentNullException(nameof(author));
-            if (Authors.Contains(author))
+            if (EntityValidator.AcceptAuthor(author))
             {
-                throw new ArgumentException("Author with this data already exists");
+                if (!Authors.Contains(author))
+                {
+                    Authors!.Add(author);
+                }
             }
-
-            Authors!.Add(author);
         }
 
         public List<(string, string)>? GetAuthors()

@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Task52.Validators;
 
-namespace Task52
+namespace Task52.Entities
 {
     public class Isbn
     {
@@ -11,26 +12,14 @@ namespace Task52
             get => _isbn;
             set
             {
-                if (!IsValidIsbn(value)) throw new ArgumentException("ISBN is not valid");
+                if (EntityValidator.AcceptIsbn(this)) throw new ArgumentException("ISBN is not valid");
                 _isbn = value;
             }
         }
 
-        private const string Pattern = @"\d{3}-?\d{1}-?\d{4}-?\d{4}";
-
-        public bool IsValidIsbn(string isbn)
-        {
-            if (!Regex.IsMatch(isbn, @"\d{3}-?\d{1}-?\d{4}-?\d{4}") || isbn.Length < 13 || isbn.Length > 13)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         public Isbn(string isbn)
         {
-            if (!Regex.IsMatch(isbn, Pattern) || isbn.Length < 12 || isbn.Length > 12)
+            if (!Regex.IsMatch(isbn, @"\d{3}-?\d{1}-?\d{2}-?\d{6}") && !Regex.IsMatch(isbn, @"^\d{12}$"))
             {
                 throw new ArgumentException(nameof(isbn));
             }
@@ -64,7 +53,7 @@ namespace Task52
                 }
             }
 
-            int rest = 10 - (sum % 10);
+            int rest = 10 - sum % 10;
 
             if (rest == 10)
             {
@@ -75,7 +64,7 @@ namespace Task52
 
         public override string ToString()
         {
-            return IsbnNumber;
+            return IsbnConverter.ConvertIsbnToCommonPattern(IsbnNumber);
         }
     }
 }

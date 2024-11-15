@@ -1,18 +1,18 @@
-﻿using System.Text.RegularExpressions;
+﻿using Task52.Validators;
 
-namespace Task52
+namespace Task52.Entities
 {
     internal class Catalog
     {
         // string - ISBN 
-        private Dictionary<string, Book> Books = new Dictionary<string, Book>();
+        private Dictionary<Isbn, Book> Books = new Dictionary<Isbn, Book>();
 
         public void AddBook(Book book)
         {
-            if (book == null) throw new ArgumentNullException(nameof(book));
-            if (book.Isbn == null) throw new ArgumentNullException("ISBN is null");
-            if (book.Title == null) throw new ArgumentNullException("Title is null");
-            Books!.Add(book.Isbn.ToString(), book);
+            if (EntityValidator.AcceptBook(book))
+            {
+                Books!.Add(book.Isbn, book);
+            }
         }
 
         // Get a set of book titles from the catalog, sorted alphabetically.
@@ -25,11 +25,14 @@ namespace Task52
         // Retrieve from the catalog a set of books by the specified author name, sorted alphabetically.
         public List<Book> GetBooksByAuthor(Author author)
         {
-            var result = Books.Values.Where(b =>
+            var books = Books.Values.Where(b =>
                 b.Authors.Contains(author))
                 .OrderBy(b => b.PublicationDate)
                 .ToList();
-            return result;
+
+            ArgumentNullException.ThrowIfNull(books);
+
+            return books;
         }
 
         // TODO Get from the catalog a set of tuples of the form “author’s name – the number of his books in the catalog” for all authors.
@@ -41,14 +44,14 @@ namespace Task52
         //TODO Method for future tasks
         public Book GetBookByIsbn(string isbn)
         {
-            // the pattern "\D" represents any character that is not a digit
-            Regex regex = new Regex(@"\D");
+            var convertedIsbn = IsbnConverter.ConvertIsbnToCommonPattern(isbn);
 
             var book = Books
-                .Where(b => b.Key == regex.Replace(isbn, ""))
+                .Where(b => b.Key.ToString() == convertedIsbn)
                 .Select(b => b.Value)
                 .FirstOrDefault();
-            if (book == null) new ArgumentNullException(nameof(book));
+
+            ArgumentNullException.ThrowIfNull(book);
 
             return book;
         }

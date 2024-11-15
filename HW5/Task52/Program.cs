@@ -1,4 +1,4 @@
-﻿using Task52;
+﻿using Task52.Entities;
 
 Catalog catalog = new Catalog();
 
@@ -45,3 +45,7 @@ foreach (var book in booksbyAuthor)
 {
     Console.WriteLine(book);
 }
+// GetBookByIsbn
+var bookByIsbn = catalog.GetBookByIsbn("9781591396192");
+Console.WriteLine("Get book by ISBN:");
+Console.WriteLine(bookByIsbn);
