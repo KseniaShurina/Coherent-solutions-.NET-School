@@ -1,6 +1,6 @@
 ﻿using Task42;
 
-RationalNumber rn1 = new RationalNumber(3, 8);
+RationalNumber rn1 = new RationalNumber(3, -8);
 RationalNumber rn2 = new RationalNumber(7, 12);
 
 RationalNumber rn3 = new RationalNumber(3, 8);

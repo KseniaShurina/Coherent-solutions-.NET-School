@@ -13,7 +13,7 @@
             int gcd = MathOperations.Gcd(Math.Abs(numerator), Math.Abs(denominator));
 
             Numerator = numerator / gcd;
-            Denominator = denominator / gcd;
+            Denominator = Math.Abs(denominator) / gcd;
         }
 
         public override bool Equals(object? obj)
