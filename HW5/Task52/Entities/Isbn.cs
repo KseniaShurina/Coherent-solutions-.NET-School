@@ -6,12 +6,21 @@ namespace Task52.Entities
     public class Isbn
     {
         private string _isbn;
+        private const string Pattern = @"\d{3}-?\d{1}-?\d{2}-?\d{6}-?\d{1}";
 
         public string IsbnNumber
         {
-            get => _isbn;
+            get
+            {
+                return _isbn;
+            }
             set
             {
+                if (value.Length < 12)
+                {
+                    CreateIsbn(value);
+                }
+
                 if (EntityValidator.AcceptIsbn(this)) throw new ArgumentException("ISBN is not valid");
                 _isbn = value;
             }
@@ -19,11 +28,18 @@ namespace Task52.Entities
 
         public Isbn(string isbn)
         {
-            if (!Regex.IsMatch(isbn, @"\d{3}-?\d{1}-?\d{2}-?\d{6}") && !Regex.IsMatch(isbn, @"^\d{12}$"))
+            if (Regex.IsMatch(isbn, Pattern))
             {
-                throw new ArgumentException(nameof(isbn));
+                IsbnNumber = isbn;
             }
+            else
+            {
+                IsbnNumber = CreateIsbn(isbn);
+            }
+        }
 
+        string CreateIsbn(string isbn)
+        {
             int[] arr = new int[12];
             for (int i = 0; i < isbn.Length; i++)
             {
@@ -32,7 +48,7 @@ namespace Task52.Entities
 
             var controlNumber = ControlNumber(arr);
 
-            IsbnNumber = isbn + controlNumber;
+            return isbn + controlNumber;
         }
 
         int ControlNumber(int[] array)
@@ -64,7 +80,7 @@ namespace Task52.Entities
 
         public override string ToString()
         {
-            return IsbnConverter.ConvertIsbnToCommonPattern(IsbnNumber);
+            return IsbnNumber;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Task51
         {
             get
             {
-                if (row < 0 || column < 0 || row >= NumberOfRows || column >= NumberOfColumns)
+                if (IsValidIndexes(row, column))
                 {
                     throw new IndexOutOfRangeException();
                 }
@@ -27,26 +27,38 @@ namespace Task51
             }
             set
             {
-                if (row < 0 || column < 0 || row >= NumberOfRows || column >= NumberOfColumns)
+                if (IsValidIndexes(row, column))
                 {
                     throw new IndexOutOfRangeException();
                 }
 
-                // If the value with these coordinates already exists change the value
-                if (_notNullElements.ContainsKey((row, column)))
+                if (value == 0 || this[row, column] != 0)
                 {
                     _notNullElements.Remove((row, column));
-                    _notNullElements.Add((row, column), value);
                 }
+
                 _notNullElements[(row, column)] = value;
             }
+        }
+
+        private bool IsValidIndexes(int row, int column)
+        {
+            return row < 0 || column < 0 || row >= NumberOfRows || column >= NumberOfColumns;
         }
 
         // Constructor
         public SparseMatrix(int numberOfRows, int cumberOfColumns)
         {
-            if (numberOfRows <= 0) throw new ArgumentOutOfRangeException(nameof(numberOfRows));
-            if (cumberOfColumns <= 0) throw new ArgumentOutOfRangeException(nameof(cumberOfColumns));
+            if (numberOfRows <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(numberOfRows));
+            }
+
+            if (cumberOfColumns <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(cumberOfColumns));
+            }
+
             NumberOfRows = numberOfRows;
             NumberOfColumns = cumberOfColumns;
             _notNullElements = new Dictionary<(int, int), long>();
@@ -93,36 +105,21 @@ namespace Task51
         // Method returns non-zero elements with itself indexes ordered by column
         public IEnumerable<(int, int, long)> GetNonZeroElements()
         {
-            // Column
-            for (int j = 0; j < NumberOfColumns; j++)
-            {
-                //Row
-                for (int i = 0; i < NumberOfRows; i++)
-                {
-                    if (this[i, j] != default)
-                    {
-                        yield return (i, j, this[i, j]);
-                    }
-                }
-            }
+            var nonZeroElements = _notNullElements.Where(i => i.Value != 0)
+                .Select(i => (i.Key.Item1, i.Key.Item2, i.Value)).OrderBy(i => i.Item2).ToArray();
+        
+            return nonZeroElements;
         }
 
         // Count of values in matrix
         public int GetCount(long x)
         {
-            int count = 0;
             if (x == 0)
             {
                 return NumberOfRows * NumberOfColumns - _notNullElements.Count;
             }
 
-            foreach (var item in _notNullElements)
-            {
-                if (_notNullElements.ContainsValue(x) & item.Value == x)
-                {
-                    count++;
-                }
-            }
+            var count = _notNullElements.Count(i => i.Value == x);
 
             return count;
         }

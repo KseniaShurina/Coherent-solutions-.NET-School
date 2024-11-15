@@ -1,13 +1,16 @@
-﻿using Task52.Validators;
-
-namespace Task52.Entities
+﻿namespace Task52.Entities
 {
     internal class Book
     {
         private string _title;
+        public Isbn Isbn { get; set; } = null!;
+        public DateTime? PublicationDate { get; set; }
         public string Title
         {
-            get => _title;
+            get
+            {
+                return _title;
+            }
             set
             {
                 if (string.IsNullOrEmpty(value))
@@ -19,32 +22,22 @@ namespace Task52.Entities
             }
         }
 
-        public Isbn Isbn { get; set; } = null!;
-        public DateTime? PublicationDate { get; set; }
-
-        // A collection of non-repeating strings, possibly empty
-        public List<Author>? Authors = new List<Author>();
-
-        public void AddAuthor(Author author)
+        public Book(string title, Isbn isbn, DateTime? publicationDate, IEnumerable<string>? authors = null)
         {
-            if (EntityValidator.AcceptAuthor(author))
+            _title = title;
+            Isbn = isbn;
+            PublicationDate = publicationDate;
+            if (authors != null)
             {
-                if (!Authors.Contains(author))
+                foreach (var author in authors)
                 {
-                    Authors!.Add(author);
+                    Authors.Add(author);
                 }
             }
         }
 
-        public List<(string, string)>? GetAuthors()
-        {
-            return Authors?.Select(a => (a.FirstName, a.LastName)).ToList() ?? null;
-        }
-
-        public void RemoveAuthor(Author author)
-        {
-            Authors?.Remove(author);
-        }
+        // A collection of non-repeating strings, possibly empty
+        public HashSet<string> Authors = new HashSet<string>();
 
         public override string ToString()
         {

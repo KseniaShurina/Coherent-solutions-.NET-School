@@ -1,22 +1,19 @@
-﻿using Task52.Validators;
-
-namespace Task52.Entities
+﻿namespace Task52.Entities
 {
     internal class Author
     {
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
+        public required string Name { get; set; }
 
-        public List<Book> Books = new List<Book>();
+        public HashSet<Book> Books = new HashSet<Book>();
 
-        public void AddBook(Book? book)
+        public Author(string name)
         {
-            if (!EntityValidator.AcceptBook(book))
-            {
-                throw new ArgumentException("Book in not valid");
-            }
+           Name = name;
+        }
 
-            Books.Add(book!);
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

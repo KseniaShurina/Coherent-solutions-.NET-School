@@ -14,7 +14,7 @@ namespace Task52.Validators
             if (book.Authors != null)
             {
                 // Check that each author has FirstName and LastName filled in
-                if (book.Authors.Any(a => IsPropNullOrEmpty(a.FirstName) || IsPropNullOrEmpty(a.LastName)))
+                if (book.Authors.Any(a => IsPropNullOrEmpty(a)))
                 {
                     return false;
                 }
@@ -36,11 +36,11 @@ namespace Task52.Validators
             return true;
         }
 
-        public static bool AcceptAuthor(Author? author)
+        public static bool AcceptAuthor(string? author)
         {
             if (author == null) return false;
 
-            if (IsPropNullOrEmpty(author.FirstName) || IsPropNullOrEmpty(author.LastName))
+            if (IsPropNullOrEmpty(author))
             {
                 return false;
             }
