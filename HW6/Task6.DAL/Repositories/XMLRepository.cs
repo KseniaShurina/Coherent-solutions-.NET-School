@@ -1,15 +1,15 @@
 ﻿using System.Xml.Serialization;
-using Task6.DAL.Entities;
 using Task6.DAL.Interfaces;
+using Task6.DAL.XMLEntities;
 
-namespace Task6.DAL.Repository
+namespace Task6.DAL.Repositories
 {
-    public class XMLRepository : IRepository
+    public class XMLRepository : IXMLRepository
     {
         private const string path = @"D:\Xeni\Repositories\Coherent-solutions-.NET-School\HW6\catalog.xml";
         public XMLRepository() { }
 
-        public void Save(Catalog catalog)
+        public void Save(XMLCatalog catalog)
         {
 
             if (catalog == null)
@@ -17,7 +17,7 @@ namespace Task6.DAL.Repository
                 throw new ArgumentNullException(nameof(catalog));
             }
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Catalog));
+            XmlSerializer serializer = new XmlSerializer(typeof(XMLCatalog));
 
             using (FileStream file = new FileStream(path, FileMode.OpenOrCreate))
             {
@@ -25,17 +25,15 @@ namespace Task6.DAL.Repository
             }
         }
 
-        public Catalog? Get()
+        public XMLCatalog? Get()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Catalog));
+            XmlSerializer serializer = new XmlSerializer(typeof(XMLCatalog));
 
             using (FileStream file = new FileStream(path, FileMode.Open))
             {
-                Catalog? catalog = serializer.Deserialize(file) as Catalog;
+                XMLCatalog? catalog = serializer.Deserialize(file) as XMLCatalog;
                 return catalog ?? null;
             }
-            
-            //throw new NotImplementedException();
         }
         public void Update() { }
         public void Delete() { }

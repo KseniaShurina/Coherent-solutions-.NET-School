@@ -1,17 +1,21 @@
-﻿using Task6.BL.Interfaces;
+﻿using Task6.BL.Extensions.Entities;
+using Task6.BL.Interfaces;
 using Task6.DAL.Entities;
+using Task6.DAL.Extensions;
 using Task6.DAL.Interfaces;
-using Task6.DAL.Repository;
+using Task6.DAL.Repositories;
 
 namespace Task6.BL.Services
 {
     internal class CatalogService : ICatalogService
     {
-        private readonly IRepository _repository;
+        private readonly IXMLRepository _xmlRepository;
+        private readonly IJSONRepository _jsonRepository;
 
         public CatalogService()
         {
-            _repository = new XMLRepository();
+            _xmlRepository = new XMLRepository();
+            _jsonRepository = new JSONRepository();
         }
 
         public void SaveCatalog(Catalog catalog)
@@ -21,12 +25,13 @@ namespace Task6.BL.Services
                 throw new NullReferenceException();
             }
 
-            _repository.Save(catalog);
+            _xmlRepository.Save(catalog.MapToXMLCatalog());
         }
-
+        //TODO Check identity to initial object.
         public Catalog GetCatalog()
         {
-           return _repository.Get();
+            var catalog = _xmlRepository.Get().MapToCatalog();
+            return catalog;
         }
     }
 }

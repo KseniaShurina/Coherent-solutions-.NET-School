@@ -95,6 +95,7 @@ foreach (var author in getNumberOfBooksByAuthor)
 
 _catalogService.SaveCatalog(catalog);
 
+Console.WriteLine();
 Console.WriteLine("Received catalog:");
 var receivedCatalog = _catalogService.GetCatalog();
 foreach (var book in receivedCatalog.GetNumberOfBooksByAuthor())
