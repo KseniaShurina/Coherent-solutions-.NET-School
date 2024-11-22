@@ -6,7 +6,7 @@ namespace Task6.DAL.Repositories
 {
     public class XMLRepository : IXMLRepository
     {
-        private const string path = @"D:\Xeni\Repositories\Coherent-solutions-.NET-School\HW6\catalog.xml";
+        private const string path = @"D:\Xeni\Repositories\Coherent-solutions-.NET-School\HW6\Files\XML files\catalog.xml";
         public XMLRepository() { }
 
         public void Save(XMLCatalog catalog)
@@ -35,8 +35,5 @@ namespace Task6.DAL.Repositories
                 return catalog ?? null;
             }
         }
-        public void Update() { }
-        public void Delete() { }
-        public void DeleteAll() { }
     }
 }

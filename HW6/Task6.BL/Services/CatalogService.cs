@@ -18,7 +18,7 @@ namespace Task6.BL.Services
             _jsonRepository = new JSONRepository();
         }
 
-        public void SaveCatalog(Catalog catalog)
+        public void SaveCatalogToXML(Catalog catalog)
         {
             if (catalog == null)
             {
@@ -28,10 +28,25 @@ namespace Task6.BL.Services
             _xmlRepository.Save(catalog.MapToXMLCatalog());
         }
         //TODO Check identity to initial object.
-        public Catalog GetCatalog()
+        public Catalog GetCatalogFromXML()
         {
             var catalog = _xmlRepository.Get().MapToCatalog();
             return catalog;
+        }
+
+        public void SaveCatalogToJSON(Catalog catalog)
+        {
+            if (catalog == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            _jsonRepository.Save(catalog);
+        }
+
+        public void GetCatalogFromJSON()
+        {
+            var result = _jsonRepository.Get();
         }
     }
 }

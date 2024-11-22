@@ -1,4 +1,6 @@
-﻿namespace Task6.DAL.Entities
+﻿using Task6.DAL.Validators;
+
+namespace Task6.DAL.Entities
 {
     public class Author
     {
@@ -6,7 +8,9 @@
         public string LastName { get; }
         public DateTime? DateOfBirthday { get; }
 
-        public Author(string firstName, string lastName, DateTime? dateOfBirthday)
+        public HashSet<Book>? Books { get; } = new();
+
+        public Author(string firstName, string lastName, DateTime? dateOfBirthday, IEnumerable<Book>? books = null)
         {
             if (string.IsNullOrWhiteSpace(firstName) || firstName.Length > 200)
             {
@@ -21,6 +25,18 @@
             FirstName = firstName;
             LastName = lastName;
             DateOfBirthday = dateOfBirthday;
+
+            if (books != null)
+            {
+                Books = new HashSet<Book>(books);
+            }
+        }
+        public void AddBook(Book book)
+        {
+            if (EntityValidator.AcceptBook(book))
+            {
+                Books!.Add(book);
+            }
         }
 
         public override string ToString() => $"{FirstName} {LastName} {DateOfBirthday?.ToShortDateString() ?? null})";

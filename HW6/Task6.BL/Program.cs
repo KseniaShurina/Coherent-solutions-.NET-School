@@ -2,8 +2,10 @@
 using Task6.BL.Services;
 using Task6.DAL.Entities;
 
+// To manage catalog
 ICatalogService _catalogService = new CatalogService();
 
+// Create authors
 var author1 = new Author("Eric", "Ries", new DateTime(1978, 4, 1));
 var author2 = new Author("Napoleon", "Hill", new DateTime(1883, 10, 26));
 var author3 = new Author("W. Chan", "Kim", new DateTime(1951, 6, 8));
@@ -11,6 +13,7 @@ var author4 = new Author("Renée", "Mauborgne", new DateTime(1959, 11, 22));
 var author5 = new Author("Robert", "T. Kiyosaki", new DateTime(1947, 4, 8));
 var author6 = new Author("Sharon", "Lechter", new DateTime(1954, 1, 12));
 
+// Create books
 var book1 = new Book("The Lean Startup",
     new Isbn("9780307887894"), //13
     new DateTime(2011, 9, 13),
@@ -44,6 +47,7 @@ var book8 = new Book("Rich Dad's Guide to Investing",
     new DateTime(2000, 5, 1),
     new[] { author5, author6 });
 
+// Create catalog and add all books
 Catalog catalog = new Catalog();
 catalog.AddBook(book1);
 catalog.AddBook(book2);
@@ -53,6 +57,23 @@ catalog.AddBook(book5);
 catalog.AddBook(book6);
 catalog.AddBook(book7);
 catalog.AddBook(book8);
+
+// Filling authors with their books
+FillAuthorWithBooks(author1);
+FillAuthorWithBooks(author2);
+FillAuthorWithBooks(author3);
+FillAuthorWithBooks(author4);
+FillAuthorWithBooks(author5);
+FillAuthorWithBooks(author6);
+
+void FillAuthorWithBooks(Author author)
+{
+    var list = catalog.GetBooksByAuthor(author);
+    if (list.Count != 0)
+    {
+        list.ForEach((book => author.AddBook(book)));
+    }
+}
 
 // GetBookTitles
 Console.WriteLine();
@@ -93,12 +114,17 @@ foreach (var author in getNumberOfBooksByAuthor)
     Console.WriteLine(author);
 }
 
-_catalogService.SaveCatalog(catalog);
+_catalogService.SaveCatalogToXML(catalog);
 
 Console.WriteLine();
 Console.WriteLine("Received catalog:");
-var receivedCatalog = _catalogService.GetCatalog();
+var receivedCatalog = _catalogService.GetCatalogFromXML();
 foreach (var book in receivedCatalog.GetNumberOfBooksByAuthor())
 {
     Console.WriteLine(book);
 }
+
+Console.WriteLine();
+_catalogService.SaveCatalogToJSON(catalog);
+
+//_catalogService.GetCatalogFromJSON();

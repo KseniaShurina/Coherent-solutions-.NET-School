@@ -5,7 +5,7 @@
         public string Title { get; }
         public Isbn Isbn { get; } = null!;
         public DateTime? PublicationDate { get; }
-        public HashSet<Author>? Authors { get; } = new();
+        public HashSet<Author> Authors { get; } = new();
 
         public Book(string title, Isbn isbn, DateTime? publicationDate, IEnumerable<Author> authors)
         {

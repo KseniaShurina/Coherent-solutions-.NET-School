@@ -1,14 +1,19 @@
-﻿using System.Xml.Serialization;
-using Task6.DAL.Validators;
+﻿using Task6.DAL.Validators;
 
 namespace Task6.DAL.Entities
 {
-    [XmlRoot("Catalog")]
+    /// <summary>
+    /// Represents a catalog of books, allowing for various operations such as adding books,
+    /// retrieving books by author, title, or ISBN, and generating reports about authors and their books.
+    /// </summary>
     public class Catalog
     {
-        [XmlIgnore]
         private readonly Dictionary<Isbn, Book> Books = new();
 
+        /// <summary>
+        /// Adds a book to the catalog if it passes validation.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown when the book fails validation or already exists in the catalog.</exception>
         public void AddBook(Book book)
         {
             if (EntityValidator.AcceptBook(book))
@@ -17,7 +22,10 @@ namespace Task6.DAL.Entities
             }
         }
 
-        // Get a set of book titles from the catalog, sorted alphabetically.
+        /// <summary>
+        /// Get a set of book titles from the catalog, sorted alphabetically.
+        /// </summary>
+        /// <returns></returns>
         public List<string> GetBookTitles()
         {
             var result = Books
@@ -28,7 +36,11 @@ namespace Task6.DAL.Entities
             return result;
         }
 
-        // Retrieve from the catalog a set of books by the specified author name, sorted alphabetically.
+        /// <summary>
+        /// Retrieve from the catalog a set of books by the specified author name, sorted alphabetically.
+        /// </summary>
+        /// <param name="author"></param>
+        /// <returns>A list of tuples where each tuple contains an author and their corresponding book count.</returns>
         public List<Book> GetBooksByAuthor(Author author)
         {
             var books = Books.Values
@@ -39,7 +51,10 @@ namespace Task6.DAL.Entities
             return books;
         }
 
-        // Get from the catalog a set of tuples of the form “author’s name – the number of his books in the catalog” for all authors.
+        /// <summary>
+        /// Get from the catalog a set of tuples of the form “author’s name – the number of his books in the catalog” for all authors.
+        /// </summary>
+        /// <returns>A list of tuples where each tuple contains an author and their corresponding book count.</returns>
         public List<(Author, int)> GetNumberOfBooksByAuthor()
         {
             var result = Books
@@ -50,7 +65,11 @@ namespace Task6.DAL.Entities
             return result;
         }
 
-        // Get book by ISBN. If ISBN has format XXX-X-XX-XXXXXX-X, convert to XXXXXXXXXXXXX
+        /// <summary>
+        /// Get book by ISBN. If ISBN has format XXX-X-XX-XXXXXX-X, convert to XXXXXXXXXXXXX
+        /// </summary>
+        /// <param name="isbn">The ISBN of the book to retrieve.</param>
+        /// <returns>The book with the specified ISBN, or null if no book is found.</returns>
         public Book? GetBookByIsbn(string isbn)
         {
             var convertedIsbn = IsbnConverter.ConvertIsbnToSimplifiedPattern(isbn);
@@ -63,6 +82,10 @@ namespace Task6.DAL.Entities
             return book;
         }
 
+        /// <summary>
+        /// Retrieves all books currently stored in the catalog.
+        /// </summary>
+        /// <returns>A list of all books in the catalog.</returns>
         internal List<Book> GetAllBooks()
         {
             return Books.Values.ToList();

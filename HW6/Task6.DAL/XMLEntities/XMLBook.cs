@@ -4,7 +4,6 @@ namespace Task6.DAL.XMLEntities
 {
     public class XMLBook
     {
-
         [XmlElement("Title")]
         public string Title { get; set; }
 
