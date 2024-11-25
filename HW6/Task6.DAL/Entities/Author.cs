@@ -31,13 +31,6 @@ namespace Task6.DAL.Entities
                 Books = new HashSet<Book>(books);
             }
         }
-        public void AddBook(Book book)
-        {
-            if (EntityValidator.AcceptBook(book))
-            {
-                Books!.Add(book);
-            }
-        }
 
         public override string ToString() => $"{FirstName} {LastName} {DateOfBirthday?.ToShortDateString() ?? null})";
     }

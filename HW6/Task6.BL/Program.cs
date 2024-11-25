@@ -4,6 +4,7 @@ using Task6.DAL.Entities;
 
 // To manage catalog
 ICatalogService _catalogService = new CatalogService();
+IAuthorService _authorService = new AuthorService();
 
 // Create authors
 var author1 = new Author("Eric", "Ries", new DateTime(1978, 4, 1));
@@ -71,7 +72,7 @@ void FillAuthorWithBooks(Author author)
     var list = catalog.GetBooksByAuthor(author);
     if (list.Count != 0)
     {
-        list.ForEach((book => author.AddBook(book)));
+        list.ForEach((book => _authorService.AddBook(author, book)));
     }
 }
 
@@ -108,8 +109,7 @@ Console.WriteLine(bookByIsbn2);
 Console.WriteLine();
 
 Console.WriteLine("Get Number Of Books By Author:");
-var getNumberOfBooksByAuthor = catalog.GetNumberOfBooksByAuthor();
-foreach (var author in getNumberOfBooksByAuthor)
+foreach (var author in catalog.GetNumberOfBooksByAuthor())
 {
     Console.WriteLine(author);
 }
@@ -117,9 +117,10 @@ foreach (var author in getNumberOfBooksByAuthor)
 _catalogService.SaveCatalogToXML(catalog);
 
 Console.WriteLine();
-Console.WriteLine("Received catalog:");
-var receivedCatalog = _catalogService.GetCatalogFromXML();
-foreach (var book in receivedCatalog.GetNumberOfBooksByAuthor())
+//TODO Get all books but GetNumberOfBooksByAuthor() doesn't work properly, because Author.Books is null
+Console.WriteLine("Catalog from XML:");
+var catalogFromXml = _catalogService.GetCatalogFromXML();
+foreach (var book in catalogFromXml.GetBookTitles())
 {
     Console.WriteLine(book);
 }
@@ -127,4 +128,11 @@ foreach (var book in receivedCatalog.GetNumberOfBooksByAuthor())
 Console.WriteLine();
 _catalogService.SaveCatalogToJSON(catalog);
 
-//_catalogService.GetCatalogFromJSON();
+Console.WriteLine();
+//TODO Get all books but GetNumberOfBooksByAuthor() doesn't work properly, because Author.Books is null
+Console.WriteLine("Catalog from JSON:");
+var catalogFromJson = _catalogService.GetCatalogFromJSON();
+foreach (var book in catalogFromJson.GetBookTitles())
+{
+    Console.WriteLine(book);
+}

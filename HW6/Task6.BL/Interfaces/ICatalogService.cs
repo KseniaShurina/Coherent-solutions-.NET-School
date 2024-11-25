@@ -8,5 +8,5 @@ public interface ICatalogService
     public Catalog GetCatalogFromXML();
 
     public void SaveCatalogToJSON(Catalog catalog);
-    public void GetCatalogFromJSON();
+    public Catalog GetCatalogFromJSON();
 }

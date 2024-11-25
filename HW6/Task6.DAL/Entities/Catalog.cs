@@ -86,7 +86,7 @@ namespace Task6.DAL.Entities
         /// Retrieves all books currently stored in the catalog.
         /// </summary>
         /// <returns>A list of all books in the catalog.</returns>
-        internal List<Book> GetAllBooks()
+        public List<Book> GetAllBooks()
         {
             return Books.Values.ToList();
         }

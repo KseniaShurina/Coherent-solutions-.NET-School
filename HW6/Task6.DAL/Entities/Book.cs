@@ -7,7 +7,7 @@
         public DateTime? PublicationDate { get; }
         public HashSet<Author> Authors { get; } = new();
 
-        public Book(string title, Isbn isbn, DateTime? publicationDate, IEnumerable<Author> authors)
+        public Book(string title, Isbn isbn, DateTime? publicationDate, IEnumerable<Author>? authors = null)
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentException("Title cannot be null or empty.", nameof(title));

@@ -11,6 +11,7 @@ namespace Task6.BL.Services
     {
         private readonly IXMLRepository _xmlRepository;
         private readonly IJSONRepository _jsonRepository;
+        private readonly IAuthorService _authorService;
 
         public CatalogService()
         {
@@ -44,9 +45,10 @@ namespace Task6.BL.Services
             _jsonRepository.Save(catalog);
         }
 
-        public void GetCatalogFromJSON()
+        public Catalog GetCatalogFromJSON()
         {
-            var result = _jsonRepository.Get();
+            var catalog = _jsonRepository.Get();
+            return catalog;
         }
     }
 }

@@ -39,8 +39,10 @@ namespace Task6.DAL.Repositories
                     {
                         // Generate file name based on the author's name
                         string fileName = $"{author.FirstName} {author.LastName}.json";
+
                         // Serialize the books associated with the author into JSON format
                         string json = JsonSerializer.Serialize(author.Books.Select(b => b.MapToJsonBook()), new JsonSerializerOptions { WriteIndented = true });
+
                         // Write the JSON content to a file in the specified directory
                         File.WriteAllText($@"{pathToDirectory}\{fileName}", json);
                     }
@@ -48,22 +50,44 @@ namespace Task6.DAL.Repositories
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public List<JSONAuthor> Get()
+        public Catalog Get()
         {
-            var list = new List<JSONAuthor>();
-            foreach (var file in Directory.GetFiles($@"{path}\Catalog"))
+            List<JSONBook> books = new List<JSONBook>();
+
+            var directory = new DirectoryInfo($@"{path}\Catalog");
+            if (directory.Exists)
             {
-                // Remove .json
-                var authorName = file[..5].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                JSONAuthor author = JsonSerializer.Deserialize<JSONAuthor>(file);
-                list.Add(author);
+                foreach (var file in directory.GetFiles("*.json"))
+                {
+                    // Read file
+                    var json = File.ReadAllText(file.FullName);
+                    // Get books by author
+                    var booksByAuthor = JsonSerializer.Deserialize<List<JSONBook>>(json);
+
+                    // Foreach books and check if the catalog already contains a book by ISBN
+                    if (booksByAuthor != null)
+                    {
+                        foreach (var book in booksByAuthor)
+                        {
+                            if (books.All(b => b.Isbn != book.Isbn))
+                            {
+                                books.Add(book);
+                            }
+                        }
+                    }
+                }
             }
 
-            return list;
+            Catalog catalog = new Catalog();
+            books.ForEach(book => catalog.AddBook(new Book(
+                book.Title, new Isbn(book.Isbn),
+                book.PublicationDate,
+                book.Authors.Select(author => new Author(
+                    author.FirstName,
+                    author.LastName,
+                    author.DateOfBirthday)))));
+
+            return catalog;
         }
     }
 }

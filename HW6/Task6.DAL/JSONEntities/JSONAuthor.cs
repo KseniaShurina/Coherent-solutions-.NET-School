@@ -11,6 +11,9 @@ namespace Task6.DAL.JSONEntities
         [JsonPropertyName("DateOfBirthday")]
         public DateTime? DateOfBirthday { get; set; }
 
+        [JsonIgnore]
+        public List<JSONBook> Books { get; set; }
+
         public JSONAuthor() { }
     }
 }

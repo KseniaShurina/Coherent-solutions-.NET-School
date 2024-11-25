@@ -3,7 +3,7 @@ using Task6.DAL.Entities;
 
 namespace Task6.DAL.Validators
 {
-    internal class EntityValidator
+    public class EntityValidator
     {
         public static bool AcceptBook(Book? book)
         {
