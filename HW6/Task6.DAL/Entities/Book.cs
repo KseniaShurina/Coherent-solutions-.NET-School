@@ -1,4 +1,6 @@
-﻿namespace Task6.DAL.Entities
+﻿using Task6.DAL.Validators;
+
+namespace Task6.DAL.Entities
 {
     public class Book
     {
@@ -15,15 +17,63 @@
             Title = title;
             Isbn = isbn;
             PublicationDate = publicationDate;
+
             if (authors != null)
             {
-                Authors = new HashSet<Author>(authors);
-            }    
+                foreach (var author in authors)
+                {
+                    AddAuthor(author);
+
+                    // Add this book to the author
+                    author.AddBook(this);
+                }
+            }
+        }
+
+        public void AddAuthor(Author author)
+        {
+            if (!EntityValidator.AcceptAuthor(author))
+            {
+                throw new ArgumentException("Author is not correct.");
+            }
+
+            if (Authors == null)
+            {
+                throw new ArgumentNullException(nameof(Authors));
+            }
+
+            Authors.Add(author);
         }
 
         public override string ToString()
         {
             return $"{Title} {PublicationDate?.ToShortDateString()} {Isbn}";
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Book book)
+            {
+                return false;
+            }
+
+            if (!Authors.OrderBy(a => a.LastName).SequenceEqual(book.Authors.OrderBy(a => a.LastName)))
+            {
+                return false;
+            }
+
+            // && (And) checks that all conditions are true.
+            if (Title != book.Title && Isbn != book.Isbn && PublicationDate != book.PublicationDate)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Title, Isbn, PublicationDate);
         }
     }
 }

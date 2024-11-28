@@ -1,7 +1,7 @@
 ﻿using Task6.DAL.Entities;
 using Task6.DAL.JSONEntities;
 
-namespace Task6.DAL.Extensions
+namespace Task6.DAL.Extensions.JSON
 {
     public static class JSONBookExtension
     {

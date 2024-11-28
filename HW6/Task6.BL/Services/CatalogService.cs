@@ -1,7 +1,7 @@
 ﻿using Task6.BL.Extensions.Entities;
 using Task6.BL.Interfaces;
 using Task6.DAL.Entities;
-using Task6.DAL.Extensions;
+using Task6.DAL.Extensions.XML;
 using Task6.DAL.Interfaces;
 using Task6.DAL.Repositories;
 
@@ -11,7 +11,6 @@ namespace Task6.BL.Services
     {
         private readonly IXMLRepository _xmlRepository;
         private readonly IJSONRepository _jsonRepository;
-        private readonly IAuthorService _authorService;
 
         public CatalogService()
         {
@@ -28,10 +27,11 @@ namespace Task6.BL.Services
 
             _xmlRepository.Save(catalog.MapToXMLCatalog());
         }
-        //TODO Check identity to initial object.
+        
         public Catalog GetCatalogFromXML()
         {
             var catalog = _xmlRepository.Get().MapToCatalog();
+
             return catalog;
         }
 

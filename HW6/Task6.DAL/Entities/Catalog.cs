@@ -90,5 +90,20 @@ namespace Task6.DAL.Entities
         {
             return Books.Values.ToList();
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Catalog catalog)
+            {
+                return false;
+            }
+
+            return catalog.Books.Values.OrderBy(book => book.Title).SequenceEqual(Books.Values.OrderBy(book => book.Title));
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Books.Values);
+        }
     }
 }

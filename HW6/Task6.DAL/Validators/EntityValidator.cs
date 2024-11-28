@@ -36,11 +36,11 @@ namespace Task6.DAL.Validators
             return true;
         }
 
-        public static bool AcceptAuthor(string? author)
+        public static bool AcceptAuthor(Author? author)
         {
             if (author == null) return false;
 
-            if (IsPropNullOrEmpty(author))
+            if (IsPropNullOrEmpty(author.FirstName) || IsPropNullOrEmpty(author.LastName))
             {
                 return false;
             }

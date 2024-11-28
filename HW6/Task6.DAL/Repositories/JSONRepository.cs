@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using Task6.DAL.Entities;
-using Task6.DAL.Extensions;
+using Task6.DAL.Extensions.JSON;
 using Task6.DAL.Interfaces;
 using Task6.DAL.JSONEntities;
 
@@ -80,7 +80,8 @@ namespace Task6.DAL.Repositories
 
             Catalog catalog = new Catalog();
             books.ForEach(book => catalog.AddBook(new Book(
-                book.Title, new Isbn(book.Isbn),
+                book.Title,
+                new Isbn(book.Isbn),
                 book.PublicationDate,
                 book.Authors.Select(author => new Author(
                     author.FirstName,

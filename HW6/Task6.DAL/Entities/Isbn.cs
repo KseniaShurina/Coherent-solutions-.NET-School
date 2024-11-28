@@ -14,7 +14,7 @@ namespace Task6.DAL.Entities
             {
                 return _isbn;
             }
-            set
+            private set
             {
                 if (value.Length < 12)
                 {
@@ -82,6 +82,11 @@ namespace Task6.DAL.Entities
         public override string ToString()
         {
             return IsbnNumber;
+        }
+
+        public override int GetHashCode()
+        {
+            return IsbnNumber.GetHashCode();
         }
     }
 }

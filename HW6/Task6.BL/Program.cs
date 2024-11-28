@@ -2,9 +2,8 @@
 using Task6.BL.Services;
 using Task6.DAL.Entities;
 
-// To manage catalog
+// To manage services
 ICatalogService _catalogService = new CatalogService();
-IAuthorService _authorService = new AuthorService();
 
 // Create authors
 var author1 = new Author("Eric", "Ries", new DateTime(1978, 4, 1));
@@ -48,6 +47,15 @@ var book8 = new Book("Rich Dad's Guide to Investing",
     new DateTime(2000, 5, 1),
     new[] { author5, author6 });
 
+var book9 = book1;
+Console.WriteLine(book9.Equals(book1)); // True
+Console.WriteLine(book9.Equals(book2)); // False
+
+Console.WriteLine(book1.GetHashCode()); // -988707912
+Console.WriteLine(book9.GetHashCode()); // -988707912
+Console.WriteLine(book2.GetHashCode()); // -675243955
+
+
 // Create catalog and add all books
 Catalog catalog = new Catalog();
 catalog.AddBook(book1);
@@ -58,23 +66,6 @@ catalog.AddBook(book5);
 catalog.AddBook(book6);
 catalog.AddBook(book7);
 catalog.AddBook(book8);
-
-// Filling authors with their books
-FillAuthorWithBooks(author1);
-FillAuthorWithBooks(author2);
-FillAuthorWithBooks(author3);
-FillAuthorWithBooks(author4);
-FillAuthorWithBooks(author5);
-FillAuthorWithBooks(author6);
-
-void FillAuthorWithBooks(Author author)
-{
-    var list = catalog.GetBooksByAuthor(author);
-    if (list.Count != 0)
-    {
-        list.ForEach((book => _authorService.AddBook(author, book)));
-    }
-}
 
 // GetBookTitles
 Console.WriteLine();
@@ -114,25 +105,30 @@ foreach (var author in catalog.GetNumberOfBooksByAuthor())
     Console.WriteLine(author);
 }
 
+// Catalog from XML
+Console.WriteLine();
 _catalogService.SaveCatalogToXML(catalog);
 
-Console.WriteLine();
-//TODO Get all books but GetNumberOfBooksByAuthor() doesn't work properly, because Author.Books is null
 Console.WriteLine("Catalog from XML:");
+
 var catalogFromXml = _catalogService.GetCatalogFromXML();
-foreach (var book in catalogFromXml.GetBookTitles())
+Console.WriteLine($"Are catalogs equal?: {catalog.Equals(catalogFromXml)}"); // True
+
+foreach (var book in catalogFromXml.GetNumberOfBooksByAuthor())
 {
     Console.WriteLine(book);
 }
 
+// Catalog from JSON
 Console.WriteLine();
 _catalogService.SaveCatalogToJSON(catalog);
 
-Console.WriteLine();
-//TODO Get all books but GetNumberOfBooksByAuthor() doesn't work properly, because Author.Books is null
 Console.WriteLine("Catalog from JSON:");
+
 var catalogFromJson = _catalogService.GetCatalogFromJSON();
-foreach (var book in catalogFromJson.GetBookTitles())
+Console.WriteLine($"Are catalogs equal?: {catalog.Equals(catalogFromJson)}"); //True
+
+foreach (var book in catalogFromJson.GetNumberOfBooksByAuthor())
 {
     Console.WriteLine(book);
 }

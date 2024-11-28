@@ -28,10 +28,49 @@ namespace Task6.DAL.Entities
 
             if (books != null)
             {
-                Books = new HashSet<Book>(books);
+                foreach (var book in books)
+                {
+                    AddBook(book);
+                }
             }
         }
 
+        public void AddBook(Book book)
+        {
+            if (!EntityValidator.AcceptBook(book))
+            {
+                throw new ArgumentException("Book is not correct.");
+            }
+
+            if (Books == null)
+            {
+                throw new ArgumentNullException(nameof(Books));
+            }
+
+            Books.Add(book);
+        }
+
         public override string ToString() => $"{FirstName} {LastName} {DateOfBirthday?.ToShortDateString() ?? null})";
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Author author)
+            {
+                return false;
+            }
+
+            // && (And) checks that all conditions are true.
+            if (FirstName != author.FirstName && LastName != author.LastName && DateOfBirthday != author.DateOfBirthday)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(FirstName, LastName, DateOfBirthday);
+        }
     }
 }
