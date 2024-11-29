@@ -1,9 +1,6 @@
-﻿using Task6.BL.Interfaces;
-using Task6.BL.Services;
-using Task6.DAL.Entities;
-
-// To manage services
-ICatalogService _catalogService = new CatalogService();
+﻿using Task6.DAL.Entities;
+using Task6.DAL.Interfaces;
+using Task6.DAL.Repositories;
 
 // Create authors
 var author1 = new Author("Eric", "Ries", new DateTime(1978, 4, 1));
@@ -105,13 +102,15 @@ foreach (var author in catalog.GetNumberOfBooksByAuthor())
     Console.WriteLine(author);
 }
 
-// Catalog from XML
-Console.WriteLine();
-_catalogService.SaveCatalogToXML(catalog);
+// Repositories
+IRepository xmlRepository = new XMLRepository();
+IRepository jsonRepository = new JSONRepository();
+
+xmlRepository.Save(catalog);
 
 Console.WriteLine("Catalog from XML:");
 
-var catalogFromXml = _catalogService.GetCatalogFromXML();
+var catalogFromXml = xmlRepository.Get();
 Console.WriteLine($"Are catalogs equal?: {catalog.Equals(catalogFromXml)}"); // True
 
 foreach (var book in catalogFromXml.GetNumberOfBooksByAuthor())
@@ -121,11 +120,11 @@ foreach (var book in catalogFromXml.GetNumberOfBooksByAuthor())
 
 // Catalog from JSON
 Console.WriteLine();
-_catalogService.SaveCatalogToJSON(catalog);
+jsonRepository.Save(catalog);
 
 Console.WriteLine("Catalog from JSON:");
 
-var catalogFromJson = _catalogService.GetCatalogFromJSON();
+var catalogFromJson = jsonRepository.Get();
 Console.WriteLine($"Are catalogs equal?: {catalog.Equals(catalogFromJson)}"); //True
 
 foreach (var book in catalogFromJson.GetNumberOfBooksByAuthor())
