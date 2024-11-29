@@ -1,121 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<DTOCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Books>
-    <Book>
+    <DTOBook>
       <Title>The Lean Startup</Title>
       <Isbn>9780307887894</Isbn>
       <PublicationDate>2011-09-13T00:00:00</PublicationDate>
       <Authors>
-        <Author>
+        <DTOAuthor>
           <FirstName>Eric</FirstName>
           <LastName>Ries</LastName>
-          <DateOfBirth>1978-04-01T00:00:00</DateOfBirth>
-        </Author>
+          <DateOfBirthday>1978-04-01T00:00:00</DateOfBirthday>
+        </DTOAuthor>
       </Authors>
-    </Book>
-    <Book>
+    </DTOBook>
+    <DTOBook>
       <Title>Think and Grow Rich</Title>
       <Isbn>9781585424337</Isbn>
       <PublicationDate>1937-01-01T00:00:00</PublicationDate>
       <Authors>
-        <Author>
+        <DTOAuthor>
           <FirstName>Napoleon</FirstName>
           <LastName>Hill</LastName>
-          <DateOfBirth>1883-10-26T00:00:00</DateOfBirth>
-        </Author>
+          <DateOfBirthday>1883-10-26T00:00:00</DateOfBirthday>
+        </DTOAuthor>
       </Authors>
-    </Book>
-    <Book>
+    </DTOBook>
+    <DTOBook>
       <Title>Blue Ocean Strategy</Title>
       <Isbn>9781591396192</Isbn>
       <PublicationDate>2005-02-03T00:00:00</PublicationDate>
       <Authors>
-        <Author>
+        <DTOAuthor>
           <FirstName>W. Chan</FirstName>
           <LastName>Kim</LastName>
-          <DateOfBirth>1951-06-08T00:00:00</DateOfBirth>
-        </Author>
-        <Author>
+          <DateOfBirthday>1951-06-08T00:00:00</DateOfBirthday>
+        </DTOAuthor>
+        <DTOAuthor>
           <FirstName>Renée</FirstName>
           <LastName>Mauborgne</LastName>
-          <DateOfBirth>1959-11-22T00:00:00</DateOfBirth>
-        </Author>
+          <DateOfBirthday>1959-11-22T00:00:00</DateOfBirthday>
+        </DTOAuthor>
       </Authors>
-    </Book>
-    <Book>
+    </DTOBook>
+    <DTOBook>
       <Title>Rich Dad Poor Dad</Title>
       <Isbn>9781612680194</Isbn>
       <PublicationDate>1997-04-01T00:00:00</PublicationDate>
       <Authors>
-        <Author>
+        <DTOAuthor>
           <FirstName>Robert</FirstName>
           <LastName>T. Kiyosaki</LastName>
-          <DateOfBirth>1947-04-08T00:00:00</DateOfBirth>
-        </Author>
-        <Author>
+          <DateOfBirthday>1947-04-08T00:00:00</DateOfBirthday>
+        </DTOAuthor>
+        <DTOAuthor>
           <FirstName>Sharon</FirstName>
           <LastName>Lechter</LastName>
-          <DateOfBirth>1954-01-12T00:00:00</DateOfBirth>
-        </Author>
+          <DateOfBirthday>1954-01-12T00:00:00</DateOfBirthday>
+        </DTOAuthor>
       </Authors>
-    </Book>
-    <Book>
+    </DTOBook>
+    <DTOBook>
       <Title>Cashflow Quadrant</Title>
       <Isbn>9781612680057</Isbn>
       <PublicationDate>1998-01-15T00:00:00</PublicationDate>
       <Authors>
-        <Author>
+        <DTOAuthor>
           <FirstName>Robert</FirstName>
           <LastName>T. Kiyosaki</LastName>
-          <DateOfBirth>1947-04-08T00:00:00</DateOfBirth>
-        </Author>
+          <DateOfBirthday>1947-04-08T00:00:00</DateOfBirthday>
+        </DTOAuthor>
       </Authors>
-    </Book>
-    <Book>
+    </DTOBook>
+    <DTOBook>
       <Title>Blue Ocean Shift</Title>
       <Isbn>9781509832163</Isbn>
       <PublicationDate>2017-09-26T00:00:00</PublicationDate>
       <Authors>
-        <Author>
+        <DTOAuthor>
           <FirstName>W. Chan</FirstName>
           <LastName>Kim</LastName>
-          <DateOfBirth>1951-06-08T00:00:00</DateOfBirth>
-        </Author>
-        <Author>
+          <DateOfBirthday>1951-06-08T00:00:00</DateOfBirthday>
+        </DTOAuthor>
+        <DTOAuthor>
           <FirstName>Renée</FirstName>
           <LastName>Mauborgne</LastName>
-          <DateOfBirth>1959-11-22T00:00:00</DateOfBirth>
-        </Author>
+          <DateOfBirthday>1959-11-22T00:00:00</DateOfBirthday>
+        </DTOAuthor>
       </Authors>
-    </Book>
-    <Book>
+    </DTOBook>
+    <DTOBook>
       <Title>Outwitting the Devil</Title>
       <Isbn>9781454900676</Isbn>
       <PublicationDate>2011-06-07T00:00:00</PublicationDate>
       <Authors>
-        <Author>
+        <DTOAuthor>
           <FirstName>Napoleon</FirstName>
           <LastName>Hill</LastName>
-          <DateOfBirth>1883-10-26T00:00:00</DateOfBirth>
-        </Author>
+          <DateOfBirthday>1883-10-26T00:00:00</DateOfBirthday>
+        </DTOAuthor>
       </Authors>
-    </Book>
-    <Book>
+    </DTOBook>
+    <DTOBook>
       <Title>Rich Dad's Guide to Investing</Title>
       <Isbn>9781612680101</Isbn>
       <PublicationDate>2000-05-01T00:00:00</PublicationDate>
       <Authors>
-        <Author>
+        <DTOAuthor>
           <FirstName>Robert</FirstName>
           <LastName>T. Kiyosaki</LastName>
-          <DateOfBirth>1947-04-08T00:00:00</DateOfBirth>
-        </Author>
-        <Author>
+          <DateOfBirthday>1947-04-08T00:00:00</DateOfBirthday>
+        </DTOAuthor>
+        <DTOAuthor>
           <FirstName>Sharon</FirstName>
           <LastName>Lechter</LastName>
-          <DateOfBirth>1954-01-12T00:00:00</DateOfBirth>
-        </Author>
+          <DateOfBirthday>1954-01-12T00:00:00</DateOfBirthday>
+        </DTOAuthor>
       </Authors>
-    </Book>
+    </DTOBook>
   </Books>
-</Catalog>
+</DTOCatalog>

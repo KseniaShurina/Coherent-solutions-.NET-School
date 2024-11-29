@@ -8,16 +8,16 @@ namespace Task6.DAL.Entities
         public string LastName { get; }
         public DateTime? DateOfBirthday { get; }
 
-        public HashSet<Book>? Books { get; } = new();
+        private const byte _sizeOfName = 200;
 
-        public Author(string firstName, string lastName, DateTime? dateOfBirthday, IEnumerable<Book>? books = null)
+        public Author(string firstName, string lastName, DateTime? dateOfBirthday)
         {
-            if (string.IsNullOrWhiteSpace(firstName) || firstName.Length > 200)
+            if (string.IsNullOrWhiteSpace(firstName) || firstName.Length > _sizeOfName)
             {
                 throw new ArgumentException(nameof(firstName));
             }
 
-            if (string.IsNullOrWhiteSpace(lastName) || lastName.Length > 200)
+            if (string.IsNullOrWhiteSpace(lastName) || lastName.Length > _sizeOfName)
             {
                 throw new ArgumentException(nameof(lastName));
             }
@@ -25,29 +25,6 @@ namespace Task6.DAL.Entities
             FirstName = firstName;
             LastName = lastName;
             DateOfBirthday = dateOfBirthday;
-
-            if (books != null)
-            {
-                foreach (var book in books)
-                {
-                    AddBook(book);
-                }
-            }
-        }
-
-        public void AddBook(Book book)
-        {
-            if (!EntityValidator.AcceptBook(book))
-            {
-                throw new ArgumentException("Book is not correct.");
-            }
-
-            if (Books == null)
-            {
-                throw new ArgumentNullException(nameof(Books));
-            }
-
-            Books.Add(book);
         }
 
         public override string ToString() => $"{FirstName} {LastName} {DateOfBirthday?.ToShortDateString() ?? null})";

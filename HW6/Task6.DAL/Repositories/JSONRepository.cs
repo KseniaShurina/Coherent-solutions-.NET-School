@@ -1,12 +1,12 @@
 ﻿using System.Text.Json;
+using Task6.DAL.DTO;
+using Task6.DAL.DTOExtensions;
 using Task6.DAL.Entities;
-using Task6.DAL.Extensions.JSON;
 using Task6.DAL.Interfaces;
-using Task6.DAL.JSONEntities;
 
 namespace Task6.DAL.Repositories
 {
-    public class JSONRepository : IJSONRepository
+    public class JSONRepository : IRepository
     {
         private const string path = @"D:\Xeni\Repositories\Coherent-solutions-.NET-School\HW6\Files\JSON files";
         public JSONRepository() { }
@@ -40,8 +40,10 @@ namespace Task6.DAL.Repositories
                         // Generate file name based on the author's name
                         string fileName = $"{author.FirstName} {author.LastName}.json";
 
+                        var booksByAuthor = catalog.GetBooksByAuthor(author).Select(b => b.MapToDTOBook());
+                       
                         // Serialize the books associated with the author into JSON format
-                        string json = JsonSerializer.Serialize(author.Books.Select(b => b.MapToJsonBook()), new JsonSerializerOptions { WriteIndented = true });
+                        string json = JsonSerializer.Serialize(booksByAuthor, new JsonSerializerOptions { WriteIndented = true });
 
                         // Write the JSON content to a file in the specified directory
                         File.WriteAllText($@"{pathToDirectory}\{fileName}", json);
@@ -52,7 +54,7 @@ namespace Task6.DAL.Repositories
 
         public Catalog Get()
         {
-            List<JSONBook> books = new List<JSONBook>();
+            List<DTOBook> books = new List<DTOBook>();
 
             var directory = new DirectoryInfo($@"{path}\Catalog");
             if (directory.Exists)
@@ -62,7 +64,7 @@ namespace Task6.DAL.Repositories
                     // Read file
                     var json = File.ReadAllText(file.FullName);
                     // Get books by author
-                    var booksByAuthor = JsonSerializer.Deserialize<List<JSONBook>>(json);
+                    var booksByAuthor = JsonSerializer.Deserialize<List<DTOBook>>(json);
 
                     // Foreach books and check if the catalog already contains a book by ISBN
                     if (booksByAuthor != null)

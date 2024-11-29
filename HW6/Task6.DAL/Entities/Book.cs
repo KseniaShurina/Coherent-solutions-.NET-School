@@ -23,9 +23,6 @@ namespace Task6.DAL.Entities
                 foreach (var author in authors)
                 {
                     AddAuthor(author);
-
-                    // Add this book to the author
-                    author.AddBook(this);
                 }
             }
         }

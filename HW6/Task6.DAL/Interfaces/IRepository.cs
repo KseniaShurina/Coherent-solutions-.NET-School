@@ -2,9 +2,9 @@
 
 namespace Task6.DAL.Interfaces;
 
-public interface IJSONRepository
+public interface IRepository
 {
     public void Save(Catalog catalog);
 
-    public Catalog Get();
+    public Catalog? Get();
 }
