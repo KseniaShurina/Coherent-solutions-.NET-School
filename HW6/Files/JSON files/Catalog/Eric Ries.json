@@ -1,0 +1,14 @@
+[
+  {
+    "Title": "The Lean Startup",
+    "Isbn": "9780307887894",
+    "PublicationDate": "2011-09-13T00:00:00",
+    "Authors": [
+      {
+        "FirstName": "Eric",
+        "LastName": "Ries",
+        "DateOfBirthday": "1978-04-01T00:00:00"
+      }
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "Title": "Think and Grow Rich",
+    "Isbn": "9781585424337",
+    "PublicationDate": "1937-01-01T00:00:00",
+    "Authors": [
+      {
+        "FirstName": "Napoleon",
+        "LastName": "Hill",
+        "DateOfBirthday": "1883-10-26T00:00:00"
+      }
+    ]
+  },
+  {
+    "Title": "Outwitting the Devil",
+    "Isbn": "9781454900676",
+    "PublicationDate": "2011-06-07T00:00:00",
+    "Authors": [
+      {
+        "FirstName": "Napoleon",
+        "LastName": "Hill",
+        "DateOfBirthday": "1883-10-26T00:00:00"
+      }
+    ]
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "Title": "Rich Dad Poor Dad",
+    "Isbn": "9781612680194",
+    "PublicationDate": "1997-04-01T00:00:00",
+    "Authors": [
+      {
+        "FirstName": "Robert",
+        "LastName": "T. Kiyosaki",
+        "DateOfBirthday": "1947-04-08T00:00:00"
+      },
+      {
+        "FirstName": "Sharon",
+        "LastName": "Lechter",
+        "DateOfBirthday": "1954-01-12T00:00:00"
+      }
+    ]
+  },
+  {
+    "Title": "Cashflow Quadrant",
+    "Isbn": "9781612680057",
+    "PublicationDate": "1998-01-15T00:00:00",
+    "Authors": [
+      {
+        "FirstName": "Robert",
+        "LastName": "T. Kiyosaki",
+        "DateOfBirthday": "1947-04-08T00:00:00"
+      }
+    ]
+  },
+  {
+    "Title": "Rich Dad\u0027s Guide to Investing",
+    "Isbn": "9781612680101",
+    "PublicationDate": "2000-05-01T00:00:00",
+    "Authors": [
+      {
+        "FirstName": "Robert",
+        "LastName": "T. Kiyosaki",
+        "DateOfBirthday": "1947-04-08T00:00:00"
+      },
+      {
+        "FirstName": "Sharon",
+        "LastName": "Lechter",
+        "DateOfBirthday": "1954-01-12T00:00:00"
+      }
+    ]
+  }
+]
