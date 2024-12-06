@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DTOCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Books>
+    <DTOBook>
+      <Identifiers>
+        <string xsi:nil="true" />
+      </Identifiers>
+      <Authors />
+    </DTOBook>
+    <DTOBook>
+      <Identifiers>
+        <string xsi:nil="true" />
+      </Identifiers>
+      <Authors />
+    </DTOBook>
+  </Books>
+</DTOCatalog>
