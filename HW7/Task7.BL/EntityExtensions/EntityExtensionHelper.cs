@@ -6,7 +6,7 @@ namespace Task7.BL.EntityExtensions;
 
 internal static class EntityExtensionHelper
 {
-    public static Book MapEntityToBook(this DTOBook book)
+    public static Book MapEntityToBook(this DtoBook book)
     {
         if (EntityValidator.IsIsbn(book.Identifiers[0]))
         {
@@ -30,12 +30,12 @@ internal static class EntityExtensionHelper
             );
     }
 
-    public static Author MapToEntityAuthor(this DTOAuthor author)
+    public static Author MapToEntityAuthor(this DtoAuthor author)
     {
         return new Author(author.FirstName, author.LastName, author.DateOfBirthday);
     }
 
-    public static Catalog MapToEntityCatalog(this DTOCatalog dtoCatalog)
+    public static Catalog MapToEntityCatalog(this DtoCatalog dtoCatalog)
     {
         Catalog catalog = new Catalog();
 

@@ -1,11 +1,11 @@
 ﻿using Task7.DAL.DTO;
 using Task7.DAL.Entities;
 
-namespace Task7.DAL.DTOExtensions;
+namespace Task7.DAL.DtoExtensionHelper;
 
-internal static class DTOExtensionHelper
+internal static class DtoExtensionHelper
 {
-    public static DTOBook MapToDTOBook(this Book book)
+    public static DtoBook MapToDtoBook(this Book book)
     {
         var identifiers = new List<string>();
         if (book is PaperBook paperBook)
@@ -18,12 +18,12 @@ internal static class DTOExtensionHelper
             // Assign the identifier for EBook
             identifiers.Add(eBook.Identifier);
         }
-        return new DTOBook
+        return new DtoBook
         {
             Title = book.Title,
             Identifiers = identifiers,
             // To avoid System.StackOverflowException
-            Authors = book.Authors!.Select(a => new DTOAuthor
+            Authors = book.Authors!.Select(a => new DtoAuthor
             {
                 FirstName = a.FirstName,
                 LastName = a.LastName,
@@ -32,9 +32,9 @@ internal static class DTOExtensionHelper
         };
     }
 
-    public static DTOAuthor MapToDTOAuthor(this Author author)
+    public static DtoAuthor MapToDtoAuthor(this Author author)
     {
-        return new DTOAuthor
+        return new DtoAuthor
         {
             FirstName = author.FirstName,
             LastName = author.LastName,
@@ -42,13 +42,13 @@ internal static class DTOExtensionHelper
         };
     }
 
-    public static DTOCatalog MapToDTOCatalog(this Catalog catalog)
+    public static DtoCatalog MapToDtoCatalog(this Catalog catalog)
     {
-        DTOCatalog dtoCatalog = new DTOCatalog();
+        DtoCatalog dtoCatalog = new DtoCatalog();
         var list = catalog.GetAllBooks();
         foreach (var book in list)
         {
-            dtoCatalog.Books.Add(book.MapToDTOBook());
+            dtoCatalog.Books.Add(book.MapToDtoBook());
         }
         return dtoCatalog;
     }

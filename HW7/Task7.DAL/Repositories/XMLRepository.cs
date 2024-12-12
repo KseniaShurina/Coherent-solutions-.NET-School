@@ -2,7 +2,7 @@
 using Task7.DAL.Entities;
 using Task7.DAL.Interfaces;
 using Task7.DAL.DTO;
-using Task7.DAL.DTOExtensions;
+using Task7.DAL.DtoExtensionHelper;
 using Task7.DAL.Validators;
 
 namespace Task7.DAL.Repositories;
@@ -20,9 +20,9 @@ public class XmlRepository : IRepository
             throw new ArgumentNullException(nameof(catalog));
         }
 
-        var dtoCatalog = catalog.MapToDTOCatalog();
+        var dtoCatalog = catalog.MapToDtoCatalog();
 
-        XmlSerializer serializer = new XmlSerializer(typeof(DTOCatalog));
+        XmlSerializer serializer = new XmlSerializer(typeof(DtoCatalog));
 
         using (FileStream file = new FileStream(Path, FileMode.Create))
         {
@@ -32,11 +32,11 @@ public class XmlRepository : IRepository
 
     public Catalog? Get()
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(DTOCatalog));
+        XmlSerializer serializer = new XmlSerializer(typeof(DtoCatalog));
 
         using (FileStream file = new FileStream(Path, FileMode.Open))
         {
-            DTOCatalog? dtoCatalog = serializer.Deserialize(file) as DTOCatalog;
+            DtoCatalog? dtoCatalog = serializer.Deserialize(file) as DtoCatalog;
 
             if (dtoCatalog == null)
             {

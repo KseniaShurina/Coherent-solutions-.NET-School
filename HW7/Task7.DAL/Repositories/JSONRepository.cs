@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using Task7.DAL.DTO;
-using Task7.DAL.DTOExtensions;
+using Task7.DAL.DtoExtensionHelper;
 using Task7.DAL.Entities;
 using Task7.DAL.Interfaces;
 using Task7.DAL.Validators;
@@ -41,7 +41,7 @@ public class JsonRepository : IRepository
                     // Generate file name based on the author's name
                     string fileName = $"{author.FirstName} {author.LastName}.json";
 
-                    var booksByAuthor = catalog.GetBooksByAuthor(author).Select(b => b.MapToDTOBook());
+                    var booksByAuthor = catalog.GetBooksByAuthor(author).Select(b => b.MapToDtoBook());
 
                     // Serialize the books associated with the author into JSON format
                     string json = JsonSerializer.Serialize(booksByAuthor, new JsonSerializerOptions { WriteIndented = true });
@@ -55,7 +55,7 @@ public class JsonRepository : IRepository
 
     public Catalog Get()
     {
-        List<DTOBook> books = new List<DTOBook>();
+        List<DtoBook> books = new List<DtoBook>();
 
         var directory = new DirectoryInfo($@"{Path}\Catalog");
         if (directory.Exists)
@@ -65,7 +65,7 @@ public class JsonRepository : IRepository
                 // Read file
                 var json = File.ReadAllText(file.FullName);
                 // Get books by author
-                var booksByAuthor = JsonSerializer.Deserialize<List<DTOBook>>(json);
+                var booksByAuthor = JsonSerializer.Deserialize<List<DtoBook>>(json);
 
                 // Foreach books and check if the catalog already contains a book by ISBN
                 if (booksByAuthor != null)

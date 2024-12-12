@@ -1,11 +1,9 @@
 ﻿namespace Task7.DAL.DTO;
 
-public class DTOCatalog
+public class DtoCatalog
 {
-    //[XmlArray("Books")]
-    //[XmlArrayItem("Book")]
-    public List<DTOBook> Books = new List<DTOBook>();
+    public List<DtoBook> Books = new List<DtoBook>();
 
     // Constructor for serialization
-    public DTOCatalog() { }
+    public DtoCatalog() { }
 }

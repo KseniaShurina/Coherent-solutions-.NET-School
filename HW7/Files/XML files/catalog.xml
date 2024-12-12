@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<DTOCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<DtoCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Books>
-    <DTOBook>
+    <DtoBook>
       <Title>Sapiens: A Brief History of Humankind</Title>
       <Identifiers>
         <string>heidispryi00spyr</string>
       </Identifiers>
       <Authors>
-        <DTOAuthor>
+        <DtoAuthor>
           <FirstName>Yuval Noah</FirstName>
           <LastName>Harari</LastName>
           <DateOfBirthday>1976-02-24T00:00:00</DateOfBirthday>
-        </DTOAuthor>
+        </DtoAuthor>
       </Authors>
-    </DTOBook>
-    <DTOBook>
+    </DtoBook>
+    <DtoBook>
       <Title>Harry Potter and the Chamber of Secrets</Title>
       <Identifiers>
         <string>harrychamber00rowling</string>
       </Identifiers>
       <Authors>
-        <DTOAuthor>
+        <DtoAuthor>
           <FirstName>J.K.</FirstName>
           <LastName>Rowling</LastName>
           <DateOfBirthday>1965-07-31T00:00:00</DateOfBirthday>
-        </DTOAuthor>
+        </DtoAuthor>
       </Authors>
-    </DTOBook>
-    <DTOBook>
+    </DtoBook>
+    <DtoBook>
       <Title>Emma</Title>
       <Identifiers>
         <string>emmaausten00jane</string>
       </Identifiers>
       <Authors>
-        <DTOAuthor>
+        <DtoAuthor>
           <FirstName>Jane</FirstName>
           <LastName>Austen</LastName>
           <DateOfBirthday>1775-12-16T00:00:00</DateOfBirthday>
-        </DTOAuthor>
+        </DtoAuthor>
       </Authors>
-    </DTOBook>
+    </DtoBook>
   </Books>
-</DTOCatalog>
+</DtoCatalog>
