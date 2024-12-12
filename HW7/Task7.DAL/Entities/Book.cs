@@ -5,7 +5,7 @@ public abstract class Book
     public string Title { get; }
     public HashSet<Author>? Authors { get; } = new();
 
-    public Book(string title, IEnumerable<Author>? authors = null)
+    protected Book(string title, IEnumerable<Author>? authors = null)
     {
         Title = title;
         if (authors != null)

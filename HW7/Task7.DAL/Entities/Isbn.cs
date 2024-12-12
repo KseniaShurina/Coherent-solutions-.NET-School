@@ -21,7 +21,7 @@ namespace Task7.DAL.Entities
                     CreateIsbn(value);
                 }
 
-                if (EntityValidator.AcceptIsbn(this)) throw new ArgumentException("ISBN is not valid");
+                if (EntityValidator.AcceptIsbn(value)) throw new ArgumentException("ISBN is not valid");
                 _isbn = value;
             }
         }

@@ -105,8 +105,8 @@ foreach (var title in bookTitles)
 // GetBooksByAuthor
 Console.WriteLine();
 Console.WriteLine("Get Books By Author:");
-var booksbyAuthor = catalogWithPaperBooks.GetBooksByAuthor(author2);
-foreach (var book in booksbyAuthor)
+var booksByAuthor = catalogWithPaperBooks.GetBooksByAuthor(author2);
+foreach (var book in booksByAuthor)
 {
     Console.WriteLine(book);
 }
@@ -131,6 +131,7 @@ foreach (var author in catalogWithPaperBooks.GetNumberOfBooksByAuthor())
 // Create paper factory
 var paperFactory = new PaperLibraryFactory();
 var paperLibrary = paperFactory.CreateLibrary(catalogWithPaperBooks);
+Console.WriteLine();
 Console.WriteLine("Get all publishers from paper books:");
 foreach (var item in paperLibrary.GetPressReleaseItems())
 {
@@ -140,6 +141,7 @@ foreach (var item in paperLibrary.GetPressReleaseItems())
 // Create e factory
 var eFactory = new ELibraryFactory();
 var eLibrary = eFactory.CreateLibrary(catalogWithEBooks);
+Console.WriteLine();
 Console.WriteLine("Get all publishers from electronic books:");
 foreach (var item in eLibrary.GetPressReleaseItems())
 {
@@ -150,12 +152,12 @@ foreach (var item in eLibrary.GetPressReleaseItems())
 IRepository xmlRepository = new XmlRepository();
 IRepository jsonRepository = new JsonRepository();
 // Save catalog with paper books to XML
-xmlRepository.Save(catalogWithEBooks);
-
+xmlRepository.Save(catalogWithPaperBooks);
+Console.WriteLine();
 Console.WriteLine("Catalog from XML:");
 var catalogFromXml = xmlRepository.Get();
 
-Console.WriteLine($"Are catalogs equal?: {catalogWithEBooks.Equals(catalogFromXml)}"); //TODO True?
+Console.WriteLine($"Are catalogs equal?: {catalogWithPaperBooks.Equals(catalogFromXml)}"); //TODO True?
 
 foreach (var book in catalogFromXml.GetNumberOfBooksByAuthor())
 {

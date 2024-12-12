@@ -18,7 +18,6 @@ internal static class EntityExtensionHelper
                     null,
                     null
                 );
-
         }
 
         return new EBook

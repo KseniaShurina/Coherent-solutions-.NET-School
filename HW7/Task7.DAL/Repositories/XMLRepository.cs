@@ -51,26 +51,35 @@ public class XmlRepository : IRepository
             {
                 if (EntityValidator.IsIsbn(book.Identifiers[0]))
                 {
-                    catalog.AddBook(book.Identifiers[0], new PaperBook
-                    (
-                        book.Title,
-                        new HashSet<Author>(book.Authors.Select(a =>
-                            new Author(a.FirstName, a.LastName, a.DateOfBirthday))),
-                        new List<string>(book.Identifiers),
-                        //TODO: How to deal with specific properties if I avoid them?
-                        null,
-                        null)
-                    );
+                    var restoredPaperBook = new PaperBook(
+                            book.Title,
+                            new HashSet<Author>(book.Authors.Select(a =>
+                                new Author(a.FirstName, a.LastName, a.DateOfBirthday))),
+                            new List<string>(book.Identifiers),
+                            //TODO: How to deal with specific properties if I avoid them?
+                            null,
+                            null);
+
+                    //TODO: Which approach is more useful? Throw exception if book doesn't accepted or add book to catalog if it accepted?
+                    if (!EntityValidator.AcceptBook(restoredPaperBook))
+                    {
+                        throw new ArgumentException("An error occurred while converting the book");
+                    }
+
+                    catalog.AddBook(restoredPaperBook.Isbns[0], restoredPaperBook);
                 }
                 else
                 {
-                    catalog.AddBook(book.Identifiers[0], new EBook
-                    (
+                    var restoredEBook = new EBook(
                         book.Title,
                         new HashSet<Author>(book.Authors.Select(a =>
                             new Author(a.FirstName, a.LastName, a.DateOfBirthday))),
-                        book.Identifiers[0])
-                    );
+                        book.Identifiers[0]);
+
+                    if (EntityValidator.AcceptBook(restoredEBook))
+                    {
+                        catalog.AddBook(restoredEBook.Identifier, restoredEBook);
+                    }
                 }
             }
             return catalog;

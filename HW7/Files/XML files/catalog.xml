@@ -2,9 +2,26 @@
 <DtoCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Books>
     <DtoBook>
+      <Title>1984</Title>
+      <Identifiers>
+        <string>9780451524935</string>
+        <string>9780451526342</string>
+        <string>9780141036144</string>
+      </Identifiers>
+      <Authors>
+        <DtoAuthor>
+          <FirstName>George</FirstName>
+          <LastName>Orwell</LastName>
+          <DateOfBirthday>1903-06-25T00:00:00</DateOfBirthday>
+        </DtoAuthor>
+      </Authors>
+    </DtoBook>
+    <DtoBook>
       <Title>Sapiens: A Brief History of Humankind</Title>
       <Identifiers>
-        <string>heidispryi00spyr</string>
+        <string>9780062316097</string>
+        <string>9780062316110</string>
+        <string>9780099590088</string>
       </Identifiers>
       <Authors>
         <DtoAuthor>
@@ -15,9 +32,26 @@
       </Authors>
     </DtoBook>
     <DtoBook>
-      <Title>Harry Potter and the Chamber of Secrets</Title>
+      <Title>Pride and Prejudice</Title>
       <Identifiers>
-        <string>harrychamber00rowling</string>
+        <string>9780141439518</string>
+        <string>9780199535569</string>
+        <string>9780141199078</string>
+      </Identifiers>
+      <Authors>
+        <DtoAuthor>
+          <FirstName>Jane</FirstName>
+          <LastName>Austen</LastName>
+          <DateOfBirthday>1775-12-16T00:00:00</DateOfBirthday>
+        </DtoAuthor>
+      </Authors>
+    </DtoBook>
+    <DtoBook>
+      <Title>Harry Potter and the Philosopher's Stone</Title>
+      <Identifiers>
+        <string>9780747532743</string>
+        <string>9780439554930</string>
+        <string>9781408855898</string>
       </Identifiers>
       <Authors>
         <DtoAuthor>
@@ -28,15 +62,30 @@
       </Authors>
     </DtoBook>
     <DtoBook>
-      <Title>Emma</Title>
+      <Title>Homo Deus: A Brief History of Tomorrow</Title>
       <Identifiers>
-        <string>emmaausten00jane</string>
+        <string>9780062464316</string>
+        <string>9780099590088</string>
       </Identifiers>
       <Authors>
         <DtoAuthor>
-          <FirstName>Jane</FirstName>
-          <LastName>Austen</LastName>
-          <DateOfBirthday>1775-12-16T00:00:00</DateOfBirthday>
+          <FirstName>Yuval Noah</FirstName>
+          <LastName>Harari</LastName>
+          <DateOfBirthday>1976-02-24T00:00:00</DateOfBirthday>
+        </DtoAuthor>
+      </Authors>
+    </DtoBook>
+    <DtoBook>
+      <Title>21 Lessons for the 21st Century</Title>
+      <Identifiers>
+        <string>9780525512172</string>
+        <string>9781787330672</string>
+      </Identifiers>
+      <Authors>
+        <DtoAuthor>
+          <FirstName>Yuval Noah</FirstName>
+          <LastName>Harari</LastName>
+          <DateOfBirthday>1976-02-24T00:00:00</DateOfBirthday>
         </DtoAuthor>
       </Authors>
     </DtoBook>

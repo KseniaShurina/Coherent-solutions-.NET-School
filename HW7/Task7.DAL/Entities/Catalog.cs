@@ -1,4 +1,6 @@
-﻿namespace Task7.DAL.Entities;
+﻿using Task7.DAL.Validators;
+
+namespace Task7.DAL.Entities;
 
 /// <summary>
 /// Represents a catalog of books, allowing for various operations such as adding books,
@@ -14,20 +16,36 @@ public class Catalog
     /// <exception cref="ArgumentException">Thrown when the book fails validation or already exists in the catalog.</exception>
     public void AddBook(string id, Book book)
     {
+        if (!EntityValidator.AcceptBook(book))
+        {
+            throw new ArgumentException("There is something wrong with book properties");
+        }
+
+        // If dictionary is empty add first book
         if (_books.Count == 0)
         {
-            //Todo validate book
             _books!.Add(id, book);
             return;
         }
 
-        if (_books.Values.First().GetType() != book.GetType())
+        // If dictionary already contains some books check if input book has the same type
+        if (!CompareTypeOfBookToAnotherOnes(book.GetType()))
         {
             throw new ArgumentException("Invalid type of book");
         }
 
-        //Todo validate book
         _books!.Add(id, book);
+    }
+
+    private bool CompareTypeOfBookToAnotherOnes(Type type)
+    {
+        // Check that at least one element is not of type. May be faster than All
+        if (_books.Values.Any(book => book.GetType() != type))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -51,7 +69,7 @@ public class Catalog
     public List<Book> GetBooksByAuthor(Author author)
     {
         var books = _books.Values
-            .Where(b => b.Authors.Contains(author))
+            .Where(b => b.Authors!.Contains(author))
             //.OrderBy(b => b.PublicationDate)
             .ToList();
 
@@ -104,7 +122,12 @@ public class Catalog
         {
             return false;
         }
-        // TODO: Check type of books
+        // Check type of books
+        if (!CompareTypeOfBookToAnotherOnes(catalog._books.Values.FirstOrDefault()!.GetType()))
+        {
+            return false;
+        }
+        
         return catalog._books.Values.OrderBy(book => book.Title).SequenceEqual(_books.Values.OrderBy(book => book.Title));
     }
 

@@ -4,7 +4,7 @@ namespace Task7.DAL
 {
     internal static class IsbnConverter
     {
-        private const string pattern = @"\d{3}-?\d{1}-?\d{2}-?\d{6}";
+        private const string RegexPattern = @"\d{3}-?\d{1}-?\d{2}-?\d{6}-?\d{1}";
 
         internal static string ConvertIsbnToCommonPattern(string isbn)
         {
