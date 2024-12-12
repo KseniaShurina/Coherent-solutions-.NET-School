@@ -2,16 +2,43 @@
 <DTOCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Books>
     <DTOBook>
+      <Title>Sapiens: A Brief History of Humankind</Title>
       <Identifiers>
-        <string xsi:nil="true" />
+        <string>heidispryi00spyr</string>
       </Identifiers>
-      <Authors />
+      <Authors>
+        <DTOAuthor>
+          <FirstName>Yuval Noah</FirstName>
+          <LastName>Harari</LastName>
+          <DateOfBirthday>1976-02-24T00:00:00</DateOfBirthday>
+        </DTOAuthor>
+      </Authors>
     </DTOBook>
     <DTOBook>
+      <Title>Harry Potter and the Chamber of Secrets</Title>
       <Identifiers>
-        <string xsi:nil="true" />
+        <string>harrychamber00rowling</string>
       </Identifiers>
-      <Authors />
+      <Authors>
+        <DTOAuthor>
+          <FirstName>J.K.</FirstName>
+          <LastName>Rowling</LastName>
+          <DateOfBirthday>1965-07-31T00:00:00</DateOfBirthday>
+        </DTOAuthor>
+      </Authors>
+    </DTOBook>
+    <DTOBook>
+      <Title>Emma</Title>
+      <Identifiers>
+        <string>emmaausten00jane</string>
+      </Identifiers>
+      <Authors>
+        <DTOAuthor>
+          <FirstName>Jane</FirstName>
+          <LastName>Austen</LastName>
+          <DateOfBirthday>1775-12-16T00:00:00</DateOfBirthday>
+        </DTOAuthor>
+      </Authors>
     </DTOBook>
   </Books>
 </DTOCatalog>

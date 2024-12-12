@@ -1,11 +1,10 @@
-﻿namespace Task7.DAL.DTO
-{
-    public class DTOAuthor
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime? DateOfBirthday { get; set; }
+﻿namespace Task7.DAL.DTO;
 
-        public DTOAuthor() { }
-    }
+public class DTOAuthor
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public DateTime? DateOfBirthday { get; set; }
+
+    public DTOAuthor() { }
 }
