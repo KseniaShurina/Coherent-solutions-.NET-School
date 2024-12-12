@@ -1,0 +1,15 @@
+[
+  {
+    "Title": "Emma",
+    "Identifiers": [
+      "emmaausten00jane"
+    ],
+    "Authors": [
+      {
+        "FirstName": "Jane",
+        "LastName": "Austen",
+        "DateOfBirthday": "1775-12-16T00:00:00"
+      }
+    ]
+  }
+]

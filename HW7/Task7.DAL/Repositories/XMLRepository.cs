@@ -60,7 +60,7 @@ public class XmlRepository : IRepository
                             null,
                             null);
 
-                    //TODO: Which approach is more useful? Throw exception if book doesn't accepted or add book to catalog if it accepted?
+                    //TODO: Which approach is more useful? Throw exception if book doesn't accepted or add book to catalog if it accepted (row 79)?
                     if (!EntityValidator.AcceptBook(restoredPaperBook))
                     {
                         throw new ArgumentException("An error occurred while converting the book");

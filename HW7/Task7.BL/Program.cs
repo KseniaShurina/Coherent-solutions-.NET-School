@@ -157,23 +157,23 @@ Console.WriteLine();
 Console.WriteLine("Catalog from XML:");
 var catalogFromXml = xmlRepository.Get();
 
-Console.WriteLine($"Are catalogs equal?: {catalogWithPaperBooks.Equals(catalogFromXml)}"); //TODO True?
+Console.WriteLine($"Are catalogs equal?: {catalogWithPaperBooks.Equals(catalogFromXml)}"); //True
 
 foreach (var book in catalogFromXml.GetNumberOfBooksByAuthor())
 {
     Console.WriteLine(book);
 }
 
-//// Catalog from JSON
-//Console.WriteLine();
-//jsonRepository.Save(catalog);
+// Save catalog with paper electronic books to JSON
+Console.WriteLine();
+jsonRepository.Save(catalogWithEBooks);
 
-//Console.WriteLine("Catalog from JSON:");
+Console.WriteLine("Catalog from JSON:");
 
-//var catalogFromJson = jsonRepository.Get();
-//Console.WriteLine($"Are catalogs equal?: {catalog.Equals(catalogFromJson)}"); //True
+var catalogFromJson = jsonRepository.Get();
+Console.WriteLine($"Are catalogs equal?: {catalogWithEBooks.Equals(catalogFromJson)}"); //True
 
-//foreach (var book in catalogFromJson.GetNumberOfBooksByAuthor())
-//{
-//    Console.WriteLine(book);
-//}
+foreach (var book in catalogFromJson.GetNumberOfBooksByAuthor())
+{
+    Console.WriteLine(book);
+}

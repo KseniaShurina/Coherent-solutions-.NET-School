@@ -26,7 +26,7 @@ public class JsonRepository : IRepository
         }
 
         // Define the directory path where JSON files will be saved
-        string pathToDirectory = $@"{Path}\Catalog";
+        string pathToDirectory = $@"{Path}";
         DirectoryInfo directory = new DirectoryInfo(pathToDirectory);
         // Create the directory if it doesn't exist
         directory.Create();
@@ -57,7 +57,7 @@ public class JsonRepository : IRepository
     {
         List<DtoBook> books = new List<DtoBook>();
 
-        var directory = new DirectoryInfo($@"{Path}\Catalog");
+        var directory = new DirectoryInfo($@"{Path}");
         if (directory.Exists)
         {
             foreach (var file in directory.GetFiles("*.json"))
@@ -87,15 +87,35 @@ public class JsonRepository : IRepository
         {
             if (EntityValidator.IsIsbn(book.Identifiers[0]))
             {
-                var paperBook = new PaperBook(
+                var restoredPaperBook = new PaperBook(
                     book.Title,
-                    book.Authors.Select(a =>
-                        new Author(a.FirstName, a.LastName, a.DateOfBirthday)) ?? Enumerable.Empty<Author>(),
-                    book.Identifiers ?? Enumerable.Empty<string>(),
-                    null,
-                    null
-                );
-                catalog.AddBook(paperBook.Isbns[0], paperBook);
+                    new HashSet<Author>(book.Authors.Select(a =>
+                        new Author(a.FirstName, a.LastName, a.DateOfBirthday))),
+                    new List<string>(book.Identifiers),
+                    //TODO: How to deal with specific properties if I avoid them?
+                    null);
+
+                if (!EntityValidator.AcceptBook(restoredPaperBook))
+                {
+                    throw new ArgumentException("An error occurred while converting the book");
+                }
+
+                catalog.AddBook(restoredPaperBook.Isbns[0], restoredPaperBook);
+            }
+            else
+            {
+                var restoredEBook = new EBook(
+                    book.Title,
+                    new HashSet<Author>(book.Authors.Select(a =>
+                        new Author(a.FirstName, a.LastName, a.DateOfBirthday))),
+                    book.Identifiers[0]);
+
+                if (!EntityValidator.AcceptBook(restoredEBook))
+                {
+                    throw new ArgumentException("An error occurred while converting the book");
+                }
+
+                catalog.AddBook(restoredEBook.Identifier, restoredEBook);
             }
         }
         return catalog;

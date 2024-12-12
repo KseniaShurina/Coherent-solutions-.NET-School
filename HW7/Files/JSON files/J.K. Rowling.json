@@ -1,0 +1,15 @@
+[
+  {
+    "Title": "Harry Potter and the Chamber of Secrets",
+    "Identifiers": [
+      "harrychamber00rowling"
+    ],
+    "Authors": [
+      {
+        "FirstName": "J.K.",
+        "LastName": "Rowling",
+        "DateOfBirthday": "1965-07-31T00:00:00"
+      }
+    ]
+  }
+]
