@@ -13,7 +13,7 @@ public class XmlRepository : IRepository
 
     private const string Path = @"D:\Xeni\Repositories\Coherent-solutions-.NET-School\HW7\Files\XML files\catalog.xml";
 
-    public void Save(Catalog catalog)
+    public async Task Save(Catalog catalog)
     {
         if (catalog == null)
         {
@@ -30,7 +30,7 @@ public class XmlRepository : IRepository
         }
     }
 
-    public Catalog? Get()
+    public async Task<Catalog> Get()
     {
         XmlSerializer serializer = new XmlSerializer(typeof(DtoCatalog));
 

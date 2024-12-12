@@ -18,42 +18,33 @@ public class JsonRepository : IRepository
     /// </summary>
     /// <param name="catalog">The catalog to save. Contains books with associated authors.</param>
     /// <exception cref="NullReferenceException">Thrown if catalog is null</exception>
-    public void Save(Catalog catalog)
+    public async Task Save(Catalog catalog)
     {
         if (catalog == null)
         {
             throw new NullReferenceException(nameof(catalog));
         }
 
-        // Define the directory path where JSON files will be saved
-        string pathToDirectory = $@"{Path}";
-        DirectoryInfo directory = new DirectoryInfo(pathToDirectory);
-        // Create the directory if it doesn't exist
-        directory.Create();
-        if (Directory.Exists(pathToDirectory))
+        // Create directory if it doesn't exist
+        Directory.CreateDirectory(Path);
+
+        foreach (var author in catalog.GetAllBooks().SelectMany(book => book.Authors))
         {
-            // Iterate over all books in the catalog
-            foreach (var book in catalog.GetAllBooks())
+            string fileName = $"{author.FirstName} {author.LastName}.json";
+            string filePath = $@"{Path}\{fileName}";
+
+            var booksByAuthor = catalog.GetBooksByAuthor(author).Select(b => b.MapToDtoBook());
+            // A stream is created to write to a file
+            await using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                // Iterate over all authors of the current book
-                foreach (var author in book.Authors)
-                {
-                    // Generate file name based on the author's name
-                    string fileName = $"{author.FirstName} {author.LastName}.json";
-
-                    var booksByAuthor = catalog.GetBooksByAuthor(author).Select(b => b.MapToDtoBook());
-
-                    // Serialize the books associated with the author into JSON format
-                    string json = JsonSerializer.Serialize(booksByAuthor, new JsonSerializerOptions { WriteIndented = true });
-
-                    // Write the JSON content to a file in the specified directory
-                    File.WriteAllText($@"{pathToDirectory}\{fileName}", json);
-                }
+                // Serialize the books associated with the author into JSON format
+                // WriteIndented = true makes the JSON structure more readable
+                await JsonSerializer.SerializeAsync(stream, booksByAuthor, new JsonSerializerOptions { WriteIndented = true });
             }
         }
     }
 
-    public Catalog Get()
+    public async Task<Catalog> Get()
     {
         List<DtoBook> books = new List<DtoBook>();
 
@@ -63,9 +54,10 @@ public class JsonRepository : IRepository
             foreach (var file in directory.GetFiles("*.json"))
             {
                 // Read file
-                var json = File.ReadAllText(file.FullName);
+                var json = await File.ReadAllTextAsync(file.FullName);
                 // Get books by author
                 var booksByAuthor = JsonSerializer.Deserialize<List<DtoBook>>(json);
+                //var booksByAuthor = await JsonSerializer.DeserializeAsync<List<DtoBook>>(json);
 
                 // Foreach books and check if the catalog already contains a book by ISBN
                 if (booksByAuthor != null)
@@ -120,4 +112,6 @@ public class JsonRepository : IRepository
         }
         return catalog;
     }
+
+    //TODO: Create method to create books
 }

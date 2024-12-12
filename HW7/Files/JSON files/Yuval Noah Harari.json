@@ -11,5 +11,18 @@
         "DateOfBirthday": "1976-02-24T00:00:00"
       }
     ]
+  },
+  {
+    "Title": "Homo Deus: A Brief History of Tomorrow",
+    "Identifiers": [
+      "jrfghjbryi00spyr"
+    ],
+    "Authors": [
+      {
+        "FirstName": "Yuval Noah",
+        "LastName": "Harari",
+        "DateOfBirthday": "1976-02-24T00:00:00"
+      }
+    ]
   }
 ]

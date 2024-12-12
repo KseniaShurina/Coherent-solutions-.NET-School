@@ -79,6 +79,13 @@ var eBook3 = new EBook(
     new List<string> { "PDF", "EPUB" }
 );
 
+var eBook4 = new EBook(
+    "Homo Deus: A Brief History of Tomorrow",
+    new HashSet<Author> { author2 },
+    "jrfghjbryi00spyr",
+    new List<string> { "PDF", "EPUB", "MOBI" }
+);
+
 // Create catalog with paper books
 Catalog catalogWithPaperBooks = new Catalog();
 catalogWithPaperBooks.AddBook(paperBook1.Isbns[0], paperBook1);
@@ -93,6 +100,7 @@ Catalog catalogWithEBooks = new Catalog();
 catalogWithEBooks.AddBook(eBook1.Identifier, eBook1);
 catalogWithEBooks.AddBook(eBook2.Identifier, eBook2);
 catalogWithEBooks.AddBook(eBook3.Identifier, eBook3);
+catalogWithEBooks.AddBook(eBook4.Identifier, eBook4);
 
 // GetBookTitles
 Console.WriteLine("Get Book Titles:");
@@ -152,10 +160,10 @@ foreach (var item in eLibrary.GetPressReleaseItems())
 IRepository xmlRepository = new XmlRepository();
 IRepository jsonRepository = new JsonRepository();
 // Save catalog with paper books to XML
-xmlRepository.Save(catalogWithPaperBooks);
+await xmlRepository.Save(catalogWithPaperBooks);
 Console.WriteLine();
 Console.WriteLine("Catalog from XML:");
-var catalogFromXml = xmlRepository.Get();
+var catalogFromXml = await xmlRepository.Get();
 
 Console.WriteLine($"Are catalogs equal?: {catalogWithPaperBooks.Equals(catalogFromXml)}"); //True
 
@@ -166,11 +174,11 @@ foreach (var book in catalogFromXml.GetNumberOfBooksByAuthor())
 
 // Save catalog with paper electronic books to JSON
 Console.WriteLine();
-jsonRepository.Save(catalogWithEBooks);
-
+await jsonRepository.Save(catalogWithEBooks);
+// catalogWithEBooks
 Console.WriteLine("Catalog from JSON:");
 
-var catalogFromJson = jsonRepository.Get();
+var catalogFromJson = await jsonRepository.Get();
 Console.WriteLine($"Are catalogs equal?: {catalogWithEBooks.Equals(catalogFromJson)}"); //True
 
 foreach (var book in catalogFromJson.GetNumberOfBooksByAuthor())
