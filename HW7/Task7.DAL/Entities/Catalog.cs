@@ -70,7 +70,6 @@ public class Catalog
     {
         var books = _books.Values
             .Where(b => b.Authors!.Contains(author))
-            //.OrderBy(b => b.PublicationDate)
             .ToList();
 
         return books;

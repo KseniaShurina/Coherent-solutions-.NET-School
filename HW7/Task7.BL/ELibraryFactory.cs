@@ -7,18 +7,39 @@ public class ELibraryFactory : ILibraryAbstractFactory
 {
     public ELibraryFactory() { }
 
-    public Library CreateLibrary(Catalog catalog)
+    public Catalog CreateCatalog(IEnumerable<Book> books)
     {
-        var books = catalog.GetAllBooks();
+        if (books == null)
+        {
+            throw new ArgumentNullException(nameof(books));
+        }
+
+        if (books.Any(b => b is not EBook))
+        {
+            throw new ArgumentException("Invalid format of books");
+        }
+        Catalog catalog = new Catalog();
+
+        foreach (var book in books.OfType<EBook>())
+        {
+            catalog.AddBook(book.Identifier, book);
+        }
+
+        return catalog;
+    }
+
+    public IEnumerable<string> CreatePressReleaseItems(IEnumerable<Book> books)
+    {
+        if (books == null)
+        {
+            throw new ArgumentNullException(nameof(books));
+        }
+
         if (books.Any(b => b is not EBook))
         {
             throw new ArgumentException("Invalid format of books");
         }
 
-        var library = new Library(catalog);
-        // For PaperBooks catalog - list of all available electronic formats
-        library.PressReleaseItems = books.OfType<EBook>().SelectMany(b => b.Formats).Distinct().ToList();
-
-        return library;
+        return books.OfType<EBook>().SelectMany(b => b.Formats).Distinct().ToList();
     }
 }

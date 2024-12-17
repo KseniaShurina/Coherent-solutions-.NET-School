@@ -7,19 +7,40 @@ public class PaperLibraryFactory : ILibraryAbstractFactory
 {
     public PaperLibraryFactory() { }
 
-    public Library CreateLibrary(Catalog catalog)
+    public Catalog CreateCatalog(IEnumerable<Book> books)
     {
-        var books = catalog.GetAllBooks();
+        if (books == null)
+        {
+            throw new ArgumentNullException(nameof(books));
+        }
+
+        if (books.Any(b => b is not PaperBook))
+        {
+            throw new ArgumentException("Invalid format of books");
+        }
+        Catalog catalog = new Catalog();
+
+        foreach (var book in books.OfType<PaperBook>())
+        {
+            catalog.AddBook(book.Isbns[0], book);
+        }
+
+        return catalog;
+    }
+
+    public IEnumerable<string> CreatePressReleaseItems(IEnumerable<Book> books)
+    {
+        if (books == null)
+        {
+            throw new ArgumentNullException(nameof(books));
+        }
+
         if (books.Any(b => b is not PaperBook))
         {
             throw new ArgumentException("Invalid format of books");
         }
 
-        var library = new Library(catalog);
-        // For PaperBooks catalog - list of all publishers
-        library.PressReleaseItems = books.OfType<PaperBook>().Select(b => b.Publisher).Distinct().ToList();
-
-        return library;
+        return books.OfType<PaperBook>().Select(b => b.Publisher).Distinct().ToList();
     }
 }
 

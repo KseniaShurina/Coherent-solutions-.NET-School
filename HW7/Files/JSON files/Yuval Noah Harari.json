@@ -2,7 +2,9 @@
   {
     "Title": "Sapiens: A Brief History of Humankind",
     "Identifiers": [
-      "heidispryi00spyr"
+      "9780062316097",
+      "9780062316110",
+      "9780099590088"
     ],
     "Authors": [
       {
@@ -15,7 +17,22 @@
   {
     "Title": "Homo Deus: A Brief History of Tomorrow",
     "Identifiers": [
-      "jrfghjbryi00spyr"
+      "9780062464316",
+      "9780099590088"
+    ],
+    "Authors": [
+      {
+        "FirstName": "Yuval Noah",
+        "LastName": "Harari",
+        "DateOfBirthday": "1976-02-24T00:00:00"
+      }
+    ]
+  },
+  {
+    "Title": "21 Lessons for the 21st Century",
+    "Identifiers": [
+      "9780525512172",
+      "9781787330672"
     ],
     "Authors": [
       {

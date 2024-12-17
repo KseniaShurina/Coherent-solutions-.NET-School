@@ -4,7 +4,7 @@ using Task7.DAL.Validators;
 
 namespace Task7.BL.EntityExtensions;
 
-internal static class EntityExtensionHelper
+public static class EntityExtensionHelper
 {
     public static Book MapEntityToBook(this DtoBook book)
     {

@@ -86,25 +86,12 @@ var eBook4 = new EBook(
     new List<string> { "PDF", "EPUB", "MOBI" }
 );
 
-// Create catalog with paper books
-Catalog catalogWithPaperBooks = new Catalog();
-catalogWithPaperBooks.AddBook(paperBook1.Isbns[0], paperBook1);
-catalogWithPaperBooks.AddBook(paperBook2.Isbns[0], paperBook2);
-catalogWithPaperBooks.AddBook(paperBook3.Isbns[0], paperBook3);
-catalogWithPaperBooks.AddBook(paperBook4.Isbns[0], paperBook4);
-catalogWithPaperBooks.AddBook(paperBook5.Isbns[0], paperBook5);
-catalogWithPaperBooks.AddBook(paperBook6.Isbns[0], paperBook6);
-
-// Create catalog with EBooks
-Catalog catalogWithEBooks = new Catalog();
-catalogWithEBooks.AddBook(eBook1.Identifier, eBook1);
-catalogWithEBooks.AddBook(eBook2.Identifier, eBook2);
-catalogWithEBooks.AddBook(eBook3.Identifier, eBook3);
-catalogWithEBooks.AddBook(eBook4.Identifier, eBook4);
+var builder = LibraryBuilder.GetInstance();
+var paperLibrary = builder.BuildLibrary("Paper", new List<Book>(){ paperBook1, paperBook2, paperBook3, paperBook4, paperBook5, paperBook6 });
 
 // GetBookTitles
 Console.WriteLine("Get Book Titles:");
-var bookTitles = catalogWithPaperBooks.GetBookTitles();
+var bookTitles = paperLibrary.Catalog.GetBookTitles();
 foreach (var title in bookTitles)
 {
     Console.WriteLine(title);
@@ -113,7 +100,7 @@ foreach (var title in bookTitles)
 // GetBooksByAuthor
 Console.WriteLine();
 Console.WriteLine("Get Books By Author:");
-var booksByAuthor = catalogWithPaperBooks.GetBooksByAuthor(author2);
+var booksByAuthor = paperLibrary.Catalog.GetBooksByAuthor(author2);
 foreach (var book in booksByAuthor)
 {
     Console.WriteLine(book);
@@ -122,66 +109,47 @@ foreach (var book in booksByAuthor)
 // GetBookByIsbn
 Console.WriteLine();
 Console.WriteLine("Get Book By Isbn:");
-var bookByIsbn1 = catalogWithPaperBooks.GetBookByIsbn("9780062316097"); // paperBook2
+var bookByIsbn1 = paperLibrary.Catalog.GetBookByIsbn("9780062316097"); // paperBook2
 Console.WriteLine($"{nameof(bookByIsbn1)}: {bookByIsbn1}");
-var bookByIsbn2 = catalogWithPaperBooks.GetBookByIsbn("9780141439518"); // paperBook3
+var bookByIsbn2 = paperLibrary.Catalog.GetBookByIsbn("9780141439518"); // paperBook3
 Console.WriteLine($"{nameof(bookByIsbn2)}: {bookByIsbn2}");
 
 //GetNumberOfBooksByAuthor
 Console.WriteLine();
 
 Console.WriteLine("Get Number Of Books By Author:");
-foreach (var author in catalogWithPaperBooks.GetNumberOfBooksByAuthor())
+foreach (var author in paperLibrary.Catalog.GetNumberOfBooksByAuthor())
 {
     Console.WriteLine(author);
-}
-
-// Create paper factory
-var paperFactory = new PaperLibraryFactory();
-var paperLibrary = paperFactory.CreateLibrary(catalogWithPaperBooks);
-Console.WriteLine();
-Console.WriteLine("Get all publishers from paper books:");
-foreach (var item in paperLibrary.GetPressReleaseItems())
-{
-    Console.WriteLine(item);
-}
-
-// Create e factory
-var eFactory = new ELibraryFactory();
-var eLibrary = eFactory.CreateLibrary(catalogWithEBooks);
-Console.WriteLine();
-Console.WriteLine("Get all publishers from electronic books:");
-foreach (var item in eLibrary.GetPressReleaseItems())
-{
-    Console.WriteLine(item);
 }
 
 // Repositories
 IRepository xmlRepository = new XmlRepository();
 IRepository jsonRepository = new JsonRepository();
-// Save catalog with paper books to XML
-await xmlRepository.Save(catalogWithPaperBooks);
+// Save library with paper books to XML
+await xmlRepository.Save(paperLibrary);
 Console.WriteLine();
-Console.WriteLine("Catalog from XML:");
-var catalogFromXml = await xmlRepository.Get();
+Console.WriteLine("Library from XML:");
+var booksFromXml = await xmlRepository.Get();
+var restoredLibraryFromXml = builder.BuildLibrary("Paper", booksFromXml);
 
-Console.WriteLine($"Are catalogs equal?: {catalogWithPaperBooks.Equals(catalogFromXml)}"); //True
+Console.WriteLine($"Are libraries equal?: {paperLibrary.Equals(restoredLibraryFromXml)}"); //True ?
 
-foreach (var book in catalogFromXml.GetNumberOfBooksByAuthor())
+foreach (var book in restoredLibraryFromXml.Catalog.GetAllBooks())
 {
     Console.WriteLine(book);
 }
 
-// Save catalog with paper electronic books to JSON
+// Save library with paper electronic books to JSON
 Console.WriteLine();
-await jsonRepository.Save(catalogWithEBooks);
-// catalogWithEBooks
-Console.WriteLine("Catalog from JSON:");
+await jsonRepository.Save(paperLibrary);
 
-var catalogFromJson = await jsonRepository.Get();
-Console.WriteLine($"Are catalogs equal?: {catalogWithEBooks.Equals(catalogFromJson)}"); //True
+Console.WriteLine("Library from JSON:");
+var booksFromJson = await jsonRepository.Get();
+var restoredLibraryFromJson = builder.BuildLibrary("Paper", booksFromJson);
+Console.WriteLine($"Are libraries equal?: {paperLibrary.Equals(restoredLibraryFromJson)}"); //True
 
-foreach (var book in catalogFromJson.GetNumberOfBooksByAuthor())
+foreach (var book in restoredLibraryFromJson.Catalog.GetAllBooks())
 {
     Console.WriteLine(book);
 }

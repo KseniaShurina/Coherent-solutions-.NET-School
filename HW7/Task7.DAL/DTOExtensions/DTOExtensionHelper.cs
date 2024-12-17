@@ -1,7 +1,7 @@
 ﻿using Task7.DAL.DTO;
 using Task7.DAL.Entities;
 
-namespace Task7.DAL.DtoExtensionHelper;
+namespace Task7.DAL.DtoExtensions;
 
 internal static class DtoExtensionHelper
 {
@@ -22,13 +22,7 @@ internal static class DtoExtensionHelper
         {
             Title = book.Title,
             Identifiers = identifiers,
-            // To avoid System.StackOverflowException
-            Authors = book.Authors!.Select(a => new DtoAuthor
-            {
-                FirstName = a.FirstName,
-                LastName = a.LastName,
-                DateOfBirthday = a.DateOfBirthday
-            }).ToList(),
+            Authors = book.Authors!.Select(a => a.MapToDtoAuthor()).ToList(),
         };
     }
 

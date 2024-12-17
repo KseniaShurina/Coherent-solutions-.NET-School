@@ -2,8 +2,8 @@
 using Task7.DAL.Entities;
 using Task7.DAL.Interfaces;
 using Task7.DAL.DTO;
-using Task7.DAL.DtoExtensionHelper;
 using Task7.DAL.Validators;
+using Task7.DAL.DtoExtensions;
 
 namespace Task7.DAL.Repositories;
 
@@ -11,43 +11,42 @@ public class XmlRepository : IRepository
 {
     public XmlRepository() { }
 
-    private const string Path = @"D:\Xeni\Repositories\Coherent-solutions-.NET-School\HW7\Files\XML files\catalog.xml";
+    private const string Path = @"D:\Xeni\Repositories\Coherent-solutions-.NET-School\HW7\Files\XML files\books.xml";
 
-    public async Task Save(Catalog catalog)
+    public async Task Save(Library library)
     {
-        if (catalog == null)
+        if (library == null)
         {
-            throw new ArgumentNullException(nameof(catalog));
+            throw new ArgumentNullException(nameof(library));
         }
 
-        var dtoCatalog = catalog.MapToDtoCatalog();
+        var listOfDtoBooks = library.Catalog.GetAllBooks().Select(book => book.MapToDtoBook()).ToList();
 
-        XmlSerializer serializer = new XmlSerializer(typeof(DtoCatalog));
+        XmlSerializer serializer = new XmlSerializer(typeof(List<DtoBook>));
 
         using (FileStream file = new FileStream(Path, FileMode.Create))
         {
-            serializer.Serialize(file, dtoCatalog);
+            serializer.Serialize(file, listOfDtoBooks);
         }
     }
 
-    public async Task<Catalog> Get()
+    //TODO: Create a separate method for creating books
+    public async Task<List<Book>> Get()
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(DtoCatalog));
+        XmlSerializer serializer = new XmlSerializer(typeof(List<DtoBook>));
 
         using (FileStream file = new FileStream(Path, FileMode.Open))
         {
-            DtoCatalog? dtoCatalog = serializer.Deserialize(file) as DtoCatalog;
+            List<DtoBook>? listOfDtoBooks = serializer.Deserialize(file) as List<DtoBook>;
 
-            if (dtoCatalog == null)
+            if (listOfDtoBooks == null)
             {
                 return null;
             }
 
-            // Create new catalog
-            Catalog catalog = new Catalog();
-
+            var listOfBooks = new List<Book>();
             //Add books to catalog and authors to each book
-            foreach (var book in dtoCatalog.Books)
+            foreach (var book in listOfDtoBooks)
             {
                 if (EntityValidator.IsIsbn(book.Identifiers[0]))
                 {
@@ -66,7 +65,7 @@ public class XmlRepository : IRepository
                         throw new ArgumentException("An error occurred while converting the book");
                     }
 
-                    catalog.AddBook(restoredPaperBook.Isbns[0], restoredPaperBook);
+                    listOfBooks.Add(restoredPaperBook);
                 }
                 else
                 {
@@ -78,11 +77,11 @@ public class XmlRepository : IRepository
 
                     if (EntityValidator.AcceptBook(restoredEBook))
                     {
-                        catalog.AddBook(restoredEBook.Identifier, restoredEBook);
+                        listOfBooks.Add(restoredEBook);
                     }
                 }
             }
-            return catalog;
+            return listOfBooks;
         }
     }
 }

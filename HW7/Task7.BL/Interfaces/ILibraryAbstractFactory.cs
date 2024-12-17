@@ -4,5 +4,6 @@ namespace Task7.BL.Interfaces;
 
 public interface ILibraryAbstractFactory
 {
-    public Library CreateLibrary(Catalog catalog);
+    public Catalog CreateCatalog(IEnumerable<Book> books);
+    public IEnumerable<string> CreatePressReleaseItems(IEnumerable<Book> books);
 }

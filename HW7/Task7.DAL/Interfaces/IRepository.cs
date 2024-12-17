@@ -4,7 +4,7 @@ namespace Task7.DAL.Interfaces;
 
 public interface IRepository
 {
-    public Task Save(Catalog catalog);
+    public Task Save(Library library);
 
-    public Task<Catalog> Get();
+    public Task<List<Book>> Get();
 }
