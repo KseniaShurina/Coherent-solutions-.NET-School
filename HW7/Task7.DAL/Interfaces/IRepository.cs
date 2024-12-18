@@ -1,10 +1,8 @@
-﻿using Task7.DAL.Entities;
+﻿namespace Task7.DAL.Interfaces;
 
-namespace Task7.DAL.Interfaces;
-
-public interface IRepository
+public interface IRepository<T>
 {
-    public Task Save(Library library);
+    public Task SaveAsync(IEnumerable<T> items);
 
-    public Task<List<Book>> Get();
+    public Task<IEnumerable<T>?> GetAsync();
 }

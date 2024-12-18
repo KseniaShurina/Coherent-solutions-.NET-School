@@ -1,87 +1,35 @@
 ﻿using System.Xml.Serialization;
-using Task7.DAL.Entities;
 using Task7.DAL.Interfaces;
-using Task7.DAL.DTO;
-using Task7.DAL.Validators;
-using Task7.DAL.DtoExtensions;
 
 namespace Task7.DAL.Repositories;
 
-public class XmlRepository : IRepository
+public class XmlRepository<T> : IRepository<T>
 {
     public XmlRepository() { }
 
-    private const string Path = @"D:\Xeni\Repositories\Coherent-solutions-.NET-School\HW7\Files\XML files\books.xml";
+    private const string PathToFile = @"D:\Xeni\Repositories\Coherent-solutions-.NET-School\HW7\Files\XML files\books.xml";
 
-    public async Task Save(Library library)
+    public Task SaveAsync(IEnumerable<T> items)
     {
-        if (library == null)
+        if (items == null)
         {
-            throw new ArgumentNullException(nameof(library));
+            throw new ArgumentNullException(nameof(items));
         }
 
-        var listOfDtoBooks = library.Catalog.GetAllBooks().Select(book => book.MapToDtoBook()).ToList();
+        using FileStream file = new FileStream(PathToFile, FileMode.Create);
+        XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
+        serializer.Serialize(file, items.ToList());
 
-        XmlSerializer serializer = new XmlSerializer(typeof(List<DtoBook>));
-
-        using (FileStream file = new FileStream(Path, FileMode.Create))
-        {
-            serializer.Serialize(file, listOfDtoBooks);
-        }
+        return Task.CompletedTask;
     }
 
-    //TODO: Create a separate method for creating books
-    public async Task<List<Book>> Get()
+    public async Task<IEnumerable<T>?> GetAsync()
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(List<DtoBook>));
+        await using FileStream file = new FileStream(PathToFile, FileMode.Open);
+        XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
 
-        using (FileStream file = new FileStream(Path, FileMode.Open))
-        {
-            List<DtoBook>? listOfDtoBooks = serializer.Deserialize(file) as List<DtoBook>;
+        var deserializedList = serializer.Deserialize(file) as IEnumerable<T>;
 
-            if (listOfDtoBooks == null)
-            {
-                return null;
-            }
-
-            var listOfBooks = new List<Book>();
-            //Add books to catalog and authors to each book
-            foreach (var book in listOfDtoBooks)
-            {
-                if (EntityValidator.IsIsbn(book.Identifiers[0]))
-                {
-                    var restoredPaperBook = new PaperBook(
-                            book.Title,
-                            new HashSet<Author>(book.Authors.Select(a =>
-                                new Author(a.FirstName, a.LastName, a.DateOfBirthday))),
-                            new List<string>(book.Identifiers),
-                            //TODO: How to deal with specific properties if I avoid them?
-                            null,
-                            null);
-
-                    //TODO: Which approach is more useful? Throw exception if book doesn't accepted or add book to catalog if it accepted (row 79)?
-                    if (!EntityValidator.AcceptBook(restoredPaperBook))
-                    {
-                        throw new ArgumentException("An error occurred while converting the book");
-                    }
-
-                    listOfBooks.Add(restoredPaperBook);
-                }
-                else
-                {
-                    var restoredEBook = new EBook(
-                        book.Title,
-                        new HashSet<Author>(book.Authors.Select(a =>
-                            new Author(a.FirstName, a.LastName, a.DateOfBirthday))),
-                        book.Identifiers[0]);
-
-                    if (EntityValidator.AcceptBook(restoredEBook))
-                    {
-                        listOfBooks.Add(restoredEBook);
-                    }
-                }
-            }
-            return listOfBooks;
-        }
+        return deserializedList ?? null;
     }
 }

@@ -1,5 +1,20 @@
 [
   {
+    "Title": "1984",
+    "Identifiers": [
+      "9780451524935",
+      "9780451526342",
+      "9780141036144"
+    ],
+    "Authors": [
+      {
+        "FirstName": "George",
+        "LastName": "Orwell",
+        "DateOfBirthday": "1903-06-25T00:00:00"
+      }
+    ]
+  },
+  {
     "Title": "Sapiens: A Brief History of Humankind",
     "Identifiers": [
       "9780062316097",
@@ -11,6 +26,36 @@
         "FirstName": "Yuval Noah",
         "LastName": "Harari",
         "DateOfBirthday": "1976-02-24T00:00:00"
+      }
+    ]
+  },
+  {
+    "Title": "Pride and Prejudice",
+    "Identifiers": [
+      "9780141439518",
+      "9780199535569",
+      "9780141199078"
+    ],
+    "Authors": [
+      {
+        "FirstName": "Jane",
+        "LastName": "Austen",
+        "DateOfBirthday": "1775-12-16T00:00:00"
+      }
+    ]
+  },
+  {
+    "Title": "Harry Potter and the Philosopher\u0027s Stone",
+    "Identifiers": [
+      "9780747532743",
+      "9780439554930",
+      "9781408855898"
+    ],
+    "Authors": [
+      {
+        "FirstName": "J.K.",
+        "LastName": "Rowling",
+        "DateOfBirthday": "1965-07-31T00:00:00"
       }
     ]
   },
