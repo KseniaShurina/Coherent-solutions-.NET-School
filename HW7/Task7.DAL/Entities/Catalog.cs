@@ -21,31 +21,7 @@ public class Catalog
             throw new ArgumentException("There is something wrong with book properties");
         }
 
-        // If dictionary is empty add first book
-        if (_books.Count == 0)
-        {
-            _books!.Add(id, book);
-            return;
-        }
-
-        // If dictionary already contains some books check if input book has the same type
-        if (!CompareTypeOfBookToAnotherOnes(book.GetType()))
-        {
-            throw new ArgumentException("Invalid type of book");
-        }
-
         _books!.Add(id, book);
-    }
-
-    private bool CompareTypeOfBookToAnotherOnes(Type type)
-    {
-        // Check that at least one element is not of type. May be faster than All
-        if (_books.Values.Any(book => book.GetType() != type))
-        {
-            return false;
-        }
-
-        return true;
     }
 
     /// <summary>
@@ -118,11 +94,6 @@ public class Catalog
     public override bool Equals(object? obj)
     {
         if (obj is not Catalog catalog)
-        {
-            return false;
-        }
-        // Check type of books
-        if (!CompareTypeOfBookToAnotherOnes(catalog._books.Values.FirstOrDefault()!.GetType()))
         {
             return false;
         }

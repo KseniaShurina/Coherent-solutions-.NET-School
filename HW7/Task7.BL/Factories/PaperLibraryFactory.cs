@@ -1,7 +1,8 @@
 ﻿using Task7.BL.Interfaces;
 using Task7.DAL.Entities;
+using Task7.DAL.Validators;
 
-namespace Task7.BL;
+namespace Task7.BL.Factories;
 
 public class PaperLibraryFactory : ILibraryAbstractFactory
 {
@@ -14,10 +15,11 @@ public class PaperLibraryFactory : ILibraryAbstractFactory
             throw new ArgumentNullException(nameof(books));
         }
 
-        if (books.Any(b => b is not PaperBook))
+        if (!EntityValidator.AreBooksTheSameType(books, typeof(PaperBook)))
         {
             throw new ArgumentException("Invalid format of books");
         }
+
         Catalog catalog = new Catalog();
 
         foreach (var book in books.OfType<PaperBook>())
@@ -35,7 +37,7 @@ public class PaperLibraryFactory : ILibraryAbstractFactory
             throw new ArgumentNullException(nameof(books));
         }
 
-        if (books.Any(b => b is not PaperBook))
+        if (!EntityValidator.AreBooksTheSameType(books, typeof(PaperBook)))
         {
             throw new ArgumentException("Invalid format of books");
         }

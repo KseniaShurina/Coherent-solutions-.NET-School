@@ -1,7 +1,8 @@
 ﻿using Task7.BL.Interfaces;
 using Task7.DAL.Entities;
+using Task7.DAL.Validators;
 
-namespace Task7.BL;
+namespace Task7.BL.Factories;
 
 public class ELibraryFactory : ILibraryAbstractFactory
 {
@@ -14,10 +15,11 @@ public class ELibraryFactory : ILibraryAbstractFactory
             throw new ArgumentNullException(nameof(books));
         }
 
-        if (books.Any(b => b is not EBook))
+        if (!EntityValidator.AreBooksTheSameType(books, typeof(EBook)))
         {
             throw new ArgumentException("Invalid format of books");
         }
+
         Catalog catalog = new Catalog();
 
         foreach (var book in books.OfType<EBook>())
@@ -35,7 +37,7 @@ public class ELibraryFactory : ILibraryAbstractFactory
             throw new ArgumentNullException(nameof(books));
         }
 
-        if (books.Any(b => b is not EBook))
+        if (!EntityValidator.AreBooksTheSameType(books, typeof(EBook)))
         {
             throw new ArgumentException("Invalid format of books");
         }

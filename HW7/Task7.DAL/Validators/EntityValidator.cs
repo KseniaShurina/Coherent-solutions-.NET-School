@@ -32,6 +32,15 @@ public class EntityValidator
         return true;
     }
 
+    public static bool AreBooksTheSameType(IEnumerable<Book> books, Type type)
+    {
+        if (books.Any(b => b.GetType() != type))
+        {
+            return false;
+        }
+        return true;
+    }
+
     public static bool IsIsbn(string identifier)
     {
         return Regex.IsMatch(identifier, RegexPattern);

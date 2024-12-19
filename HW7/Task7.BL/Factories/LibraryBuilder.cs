@@ -1,7 +1,8 @@
 ﻿using Task7.BL.Interfaces;
 using Task7.DAL.Entities;
+using Task7.DAL.Repositories;
 
-namespace Task7.BL;
+namespace Task7.BL.Factories;
 
 public class LibraryBuilder
 {
@@ -21,6 +22,8 @@ public class LibraryBuilder
 
     public Library BuildLibrary(string type, IEnumerable<Book> books)
     {
+        ScvDataProvider _provider = new ScvDataProvider();
+        var books1 = _provider.GetBooks();
         _factories.TryGetValue(type, out ILibraryAbstractFactory? factory);
         var catalog = _factories[type].CreateCatalog(books);
         var pressReleaseItems = _factories[type].CreatePressReleaseItems(books);

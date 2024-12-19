@@ -15,11 +15,11 @@ public class JsonRepository<T> : IRepository<T>
     /// </summary>
     /// <param name="books">The books to save.</param>
     /// <exception cref="NullReferenceException">Thrown if catalog is null</exception>
-    public async Task SaveAsync(IEnumerable<T> books)
+    public async Task SaveAsync(IEnumerable<T> items)
     {
-        if (books == null)
+        if (items == null)
         {
-            throw new NullReferenceException(nameof(books));
+            throw new NullReferenceException(nameof(items));
         }
 
         // Create directory if it doesn't exist
@@ -28,15 +28,13 @@ public class JsonRepository<T> : IRepository<T>
         //var listOfDtoBooks = books.Select.Of
 
         // A stream is created to write to a file
-        await using (var stream = new FileStream(PathToFile, FileMode.Create))
-        {
-            // Serialize the books into JSON format
-            // WriteIndented = true makes the JSON structure more readable
-            await JsonSerializer.SerializeAsync(stream, books, new JsonSerializerOptions { WriteIndented = true });
-        }
+        await using var stream = new FileStream(PathToFile, FileMode.Create);
+        // Serialize the books into JSON format
+        // WriteIndented = true makes the JSON structure more readable
+        await JsonSerializer.SerializeAsync(stream, items, new JsonSerializerOptions { WriteIndented = true });
     }
 
-    public async Task<IEnumerable<T>> GetAsync()
+    public async Task<IEnumerable<T>?> GetAsync()
     {
         if (!Directory.Exists(PathToDirectory))
         {
@@ -45,8 +43,8 @@ public class JsonRepository<T> : IRepository<T>
         // Opens a file as a stream
         await using var stream = File.OpenRead(PathToFile);
         // Asynchronous deserialization
-        var dtoBooks = await JsonSerializer.DeserializeAsync<List<T>>(stream);
+        var items = await JsonSerializer.DeserializeAsync<List<T>>(stream);
 
-        return dtoBooks as IEnumerable<T> ?? [];
+        return items as IEnumerable<T> ?? [];
     }
 }
